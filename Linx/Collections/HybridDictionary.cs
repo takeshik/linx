@@ -425,8 +425,9 @@ namespace XSpect.Collections
             IEnumerable<Boolean> ret = elements.Select(e =>
             {
                 this._keyList.RemoveAt(e.Index - removedIndexes.Count(i => i <= e.Index));
-                return this._dictionary.Remove(e.Key);
+                Boolean r = this._dictionary.Remove(e.Key);
                 removedIndexes.Add(e.Index);
+                return r;
             });
             this.OnItemsRemoved(elements);
             return ret;
