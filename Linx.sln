@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linx", "Linx\Linx.csproj", "{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Description = Library that Integrates .NET with eXtremes: Copyright © 2008-2009 Takeshi KIRIYA, XSpect Project <takeshik@users.sf.net>, All rights reserved. Licensed under the MIT License.
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

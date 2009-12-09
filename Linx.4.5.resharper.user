@@ -1,0 +1,43 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="2964" fromTop="59" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="28" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="49" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="49" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="30" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="1424" fromTop="43" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="1" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="21" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="0" fromTop="7" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="1424" fromTop="23" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="1424" fromTop="28" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="724" fromTop="14" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="1401" fromTop="25" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="157" fromTop="3" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="1504" fromTop="1" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="1942" fromTop="11" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="2539" fromTop="23" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="2789" fromTop="32" />
+      <File id="CECE0DEF-E568-42C1-81CF-9BD5F532A76D/d:Properties/f:AssemblyInfo.cs" caret="2881" fromTop="36" />
+    </RecentEdits>
+  </RecentFiles>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerMSTest>
+    <UseTestRunConfigFromMetadataFile>False</UseTestRunConfigFromMetadataFile>
+  </UnitTestRunnerMSTest>
+</Configuration>

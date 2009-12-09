@@ -1,0 +1,16 @@
+﻿Some assemblies and libraries in this package are NOT parts of MetaTweet.
+They have indivisual terms of use.
+Please inquire about these files not to copyright holders of MetaTweet, but
+to the authors of each library.
+
+BELOW IS DESCRIPTION OF THIRD-PARTY ASSEMBLIES:
+
+Achiral.dll (Achiral, Version=1.3.1.0, Culture=neutral, PublicKeyToken=401d3a4ecc7e4315)
+    Achiral <http://d.hatena.ne.jp/NyaRuRu/20080115/p1>
+        C# 3.0 Supplemental Library
+    Copyright © NyaRuRu, All rights reserved
+    This library is licensed under the Microsoft Public License.
+    The source of this assembly was modified.
+    Patch file to apply modification: Achiral.patch
+
+END OF NOTICE.

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XSpect.Linx</RootNamespace>
+    <AssemblyName>Linx</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugNoSign|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugNoSign\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NOSIGN</DefineConstants>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseNoSign|AnyCPU' ">
+    <OutputPath>bin\ReleaseNoSign\</OutputPath>
+    <DefineConstants>TRACE;NOSIGN</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Achiral, Version=1.3.1.0, Culture=neutral, PublicKeyToken=401d3a4ecc7e4315, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Achiral.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Collections\DisposableKeyedCollection.cs" />
+    <Compile Include="Collections\HybridDictionary.cs" />
+    <Compile Include="Collections\HybridDictionary.Tuple.cs" />
+    <Compile Include="Collections\NotifyDictionaryChangedEventArgs.cs" />
+    <Compile Include="Extension\BooleanUtil.cs" />
+    <Compile Include="Collections\GeneralKeyedCollection.cs" />
+    <Compile Include="Create.cs" />
+    <Compile Include="Extension\DateTimeUtil.cs" />
+    <Compile Include="Extension\DirectoryInfoUtil.cs" />
+    <Compile Include="Extension\FileInfoUtil.cs" />
+    <Compile Include="Extension\IAsyncResultUtil.cs" />
+    <Compile Include="Extension\ICollectionUtil.cs" />
+    <Compile Include="Extension\IDictionaryUtil.cs" />
+    <Compile Include="Extension\IDisposableUtil.cs" />
+    <Compile Include="Extension\IEnumerableUtil.cs" />
+    <Compile Include="Extension\NumericUtil.cs" />
+    <Compile Include="Extension\ObjectUtil.cs" />
+    <Compile Include="Extension\StreamUtil.cs" />
+    <Compile Include="Extension\StringUtil.cs" />
+    <Compile Include="Extension\UriUtil.cs" />
+    <Compile Include="Extension\XNodeUtil.cs" />
+    <Compile Include="Delegates.cs" />
+    <Compile Include="Lambda.Bind.cs">
+      <DependentUpon>Lambda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lambda.cs" />
+    <Compile Include="Lambda.Curry.cs">
+      <DependentUpon>Lambda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lambda.Invoke.cs">
+      <DependentUpon>Lambda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lambda.InvokeMulti.cs">
+      <DependentUpon>Lambda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lambda.New.cs">
+      <DependentUpon>Lambda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Lambda.Uncurry.cs">
+      <DependentUpon>Lambda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MTRandom.cs" />
+    <Compile Include="Net\UriCodec.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplaceTables.cs" />
+    <Compile Include="Struct.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
