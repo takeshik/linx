@@ -1,4 +1,5 @@
 _ReSharper.*/
+*.cache
 *.suo
 Linx/bin/
 Linx/obj/
