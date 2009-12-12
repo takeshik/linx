@@ -1,6 +1,6 @@
 ﻿// -*- mode: csharp; encoding: utf-8; tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 // vim:set ft=cs fenc=utf-8 ts=4 sw=4 sts=4 et:
-// $Id: NotifyDictionaryChangedEventArgs.cs 36029 2009-11-28 23:18:00Z takeshik $
+// $Id$
 /* Linx
  *   Library that Integrates .NET with eXtremes
  * Copyright © 2008-2009 Takeshi KIRIYA, XSpect Project <takeshik@users.sf.net>
