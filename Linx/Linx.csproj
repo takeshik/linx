@@ -8,10 +8,11 @@
     <ProjectGuid>{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XSpect.Linx</RootNamespace>
+    <RootNamespace>XSpect</RootNamespace>
     <AssemblyName>Linx</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

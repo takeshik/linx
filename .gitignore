@@ -1,5 +1,6 @@
-﻿_ReSharper.*/
-*.cache
-*.suo
-Linx/bin/
-Linx/obj/
+﻿/_ReSharper.*/
+/*.cache
+/*.suo
+/*.user
+bin/
+obj/

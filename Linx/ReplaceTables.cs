@@ -1,10 +1,12 @@
 ﻿// -*- mode: csharp; encoding: utf-8; tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 // vim:set ft=cs fenc=utf-8 ts=4 sw=4 sts=4 et:
-// $Id: d7b7cca67004c52f300ebabd4ef3b9a9997398e4 $
+// $Id: a7db7754a428ebb526d000b64ab4e48866a29032 $
 /* Linx
  *   Library that Integrates .NET with eXtremes
  * Copyright c 2008-2009 Takeshi KIRIYA, XSpect Project <takeshik@users.sf.net>
  * All rights reserved.
+ * 
+ * This file is part of Linx.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
