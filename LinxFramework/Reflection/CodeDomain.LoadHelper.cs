@@ -6,7 +6,7 @@
  *   Part of Linx
  * Linx
  *   Library that Integrates .NET with eXtremes
- * Copyright c 2008-2009 Takeshi KIRIYA, XSpect Project <takeshik@users.sf.net>
+ * Copyright © 2008-2010 Takeshi KIRIYA (aka takeshik) <takeshik@users.sf.net>
  * All rights reserved.
  * 
  * This file is part of LinxFramework.
