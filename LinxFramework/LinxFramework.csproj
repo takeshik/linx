@@ -98,6 +98,9 @@
     <Compile Include="ConsoleUtil.cs" />
     <Compile Include="ConsoleUtil.State.cs" />
     <Compile Include="ExceptionHandler.cs" />
+    <Compile Include="Hooking\ActionHook.cs" />
+    <Compile Include="Hooking\FuncHook.cs" />
+    <Compile Include="Hooking\Hook.cs" />
     <Compile Include="Reflection\CodeDomain.CompileHelper.cs" />
     <Compile Include="Reflection\CodeDomain.LoadHelper.cs" />
     <Compile Include="Reflection\CodeManager.cs" />
