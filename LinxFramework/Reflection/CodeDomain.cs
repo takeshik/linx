@@ -89,15 +89,47 @@ namespace XSpect.Reflection
             this.ApplicationDomain = AppDomain.CreateDomain("CodeMgr." + key, null, info);
         }
 
-        public CodeDomain(CodeManager parent, String key, String applicationBase, IEnumerable<String> privateBinPaths)
-            : this(parent, key, new AppDomainSetup()
-            {
-                ApplicationBase = applicationBase,
-                ApplicationName = "CodeManager." + key,
-                LoaderOptimization = LoaderOptimization.MultiDomainHost,
-                PrivateBinPath = privateBinPaths != null ? privateBinPaths.Join(";") : null,
-                PrivateBinPathProbe = "true",
-            })
+        public CodeDomain(CodeManager parent, String key, IEnumerable<Action<AppDomainSetup>> infoInitializers)
+            : this(
+                  parent,
+                  key,
+                  new AppDomainSetup()
+                  {
+                      ApplicationName = "CodeManager." + key,
+                      LoaderOptimization = LoaderOptimization.MultiDomainHost,
+                  }.Do(info => infoInitializers.ForEach(f => f(info))))   
+        {
+        }
+
+        public CodeDomain(CodeManager parent, String key, params Action<AppDomainSetup>[] infoInitializers)
+            : this(parent, key, infoInitializers as IEnumerable<Action<AppDomainSetup>>)
+        {
+        }
+
+        public CodeDomain(
+            CodeManager parent,
+            String key,
+            String applicationBase,
+            IEnumerable<String> privateBinPaths,
+            IEnumerable<Action<AppDomainSetup>> infoInitializers
+        )
+            : this(parent, key, Make.Sequence<Action<AppDomainSetup>>(info =>
+              {
+                  info.ApplicationBase = applicationBase;
+                  info.PrivateBinPath = privateBinPaths != null ? privateBinPaths.Join(";") : null;
+                  info.PrivateBinPathProbe = "true";
+              }).Concat(infoInitializers))
+        {
+        }
+
+        public CodeDomain(
+            CodeManager parent,
+            String key,
+            String applicationBase,
+            IEnumerable<String> privateBinPaths,
+            params Action<AppDomainSetup>[] infoInitializers
+        )
+            : this(parent, key, applicationBase, privateBinPaths, infoInitializers as IEnumerable<Action<AppDomainSetup>>)
         {
         }
 
