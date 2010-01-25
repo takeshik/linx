@@ -141,7 +141,7 @@ namespace XSpect.Extension
 
         public static Boolean IsDefault<TReceiver>(this TReceiver self)
         {
-            return self.Equals(default(TReceiver));
+            return ReferenceEquals(self, default(TReceiver));
         }
 
         public static TResult Do<TReceiver, TResult>(this TReceiver self, Func<TReceiver, TResult> func)
@@ -302,6 +302,19 @@ namespace XSpect.Extension
         public static TReturn Walk<TReturn, TParam>(this TReturn origin, Func<TReturn, TParam, TReturn> walker, params TParam[] parameters)
         {
             return origin.Walk(walker, parameters as IEnumerable<TParam>);
+        }
+
+        public static IEnumerable<TSource> Walk<TSource>(this TSource origin, Func<TSource, TSource> walker, Func<TSource, Boolean> terminator)
+        {
+            for (TSource obj = origin; !terminator(obj); obj = walker(obj))
+            {
+                yield return obj;
+            }
+        }
+
+        public static IEnumerable<TSource> Walk<TSource>(this TSource origin, Func<TSource, TSource> walker)
+        {
+            return Walk(origin, walker, s => s.IsDefault());
         }
 
         public static TReceiver MemberwiseClone<TReceiver>(this TReceiver self)

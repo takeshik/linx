@@ -67,6 +67,11 @@ namespace XSpect.Windows.Forms
             }).ToArray();
         }
 
+        public static String ToKeyString(this Keys[] keys)
+        {
+            return keys.Select(k => ToKeyString(k)).Join(" ");
+        }
+
         public static String ToKeyString(this Keys keys)
         {
             if (
