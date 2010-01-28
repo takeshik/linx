@@ -138,7 +138,7 @@ namespace XSpect.Net
         public virtual T Post<T>(Uri uri, Byte[] data, Func<HttpWebResponse, T> converter)
         {
             return converter(this.CreateRequest(uri, "POST")
-                .Do(r => r.GetRequestStream().Dispose(s => s.Write(data, 0, data.Length)))
+                .Let(r => r.GetRequestStream().Dispose(s => s.Write(data, 0, data.Length)))
                 .GetResponse()
             as HttpWebResponse);
         }

@@ -154,7 +154,7 @@ namespace XSpect.Extension
             return funcs.Select(f => f(self)).ToArray();
         }
 
-        public static TReceiver Do<TReceiver>(this TReceiver self, params Action<TReceiver>[] actions)
+        public static TReceiver Let<TReceiver>(this TReceiver self, params Action<TReceiver>[] actions)
         {
             actions.ForEach(a => a(self));
             return self;
@@ -172,12 +172,12 @@ namespace XSpect.Extension
 
         public static TReceiver Write<TReceiver>(this TReceiver self, TextWriter writer)
         {
-            return self.Do(o => writer.Write(o));
+            return self.Let(o => writer.Write(o));
         }
 
         public static TReceiver WriteLine<TReceiver>(this TReceiver self, TextWriter writer)
         {
-            return self.Do(o => writer.WriteLine(o));
+            return self.Let(o => writer.WriteLine(o));
         }
 
         public static void Void(this Object self)

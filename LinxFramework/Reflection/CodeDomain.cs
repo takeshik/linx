@@ -97,7 +97,7 @@ namespace XSpect.Reflection
                   {
                       ApplicationName = "CodeManager." + key,
                       LoaderOptimization = LoaderOptimization.MultiDomainHost,
-                  }.Do(info => infoInitializers.ForEach(f => f(info))))   
+                  }.Let(info => infoInitializers.ForEach(f => f(info))))   
         {
         }
 
@@ -277,7 +277,7 @@ namespace XSpect.Reflection
                       .GetEngineByTypeName(language.Type.AssemblyQualifiedName)
                       .Do(e => e.CreateScriptSourceFromString(source, SourceCodeKind.File)
                           .Execute<T>(e.CreateScope()
-                              .Do(s => arguments.ForEach(p => s.SetVariable(p.Key, p.Value)))
+                              .Let(s => arguments.ForEach(p => s.SetVariable(p.Key, p.Value)))
                           )
                       )
                 : (T) this.Compile(language, source, true).GetTypes()

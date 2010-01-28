@@ -161,8 +161,7 @@ namespace XSpect.Reflection
         public CodeDomain Add(String key, String applicationBase, IEnumerable<String> privateBinPaths)
         {
             return new CodeDomain(this, key, applicationBase, privateBinPaths)
-                .Do(d => this.DefaultAssemblies.ForEach(ar => d.Load(ar)))
-                .Do(this.Add);
+                .Let(d => this.DefaultAssemblies.ForEach(ar => d.Load(ar)), this.Add);
         }
 
         public void Clear()
@@ -216,7 +215,7 @@ namespace XSpect.Reflection
             this.Languages.AddRange(this.Configuration.ResolveChild("languages")
                 .OfValueType<LanguageSetting>()
             );
-            this.ScriptRuntime = new ScriptRuntime(new ScriptRuntimeSetup().Do(setup =>
+            this.ScriptRuntime = new ScriptRuntime(new ScriptRuntimeSetup().Let(setup =>
             {
                 setup.LanguageSetups.AddRange(this.Languages
                     .Where(l => l.IsDynamicLanguage)
@@ -245,7 +244,7 @@ namespace XSpect.Reflection
         public CodeDomain Add()
         {
             return this.Add("temp_" + Guid.NewGuid().ToString("d"))
-                .Do(d => this.AdditionalAssembliesForTemporary.ForEach(ar => d.Load(ar)));
+                .Let(d => this.AdditionalAssembliesForTemporary.ForEach(ar => d.Load(ar)));
         }
 
         public LanguageSetting GetLanguage(String language)
@@ -261,7 +260,7 @@ namespace XSpect.Reflection
         {
             AppDomain domain = this.CodeDomains[keyCloning].ApplicationDomain;
             return this.Add(key, domain.BaseDirectory, domain.SetupInformation.PrivateBinPath.Split(';'))
-                .Do(d => domain.GetAssemblies().ForEach(a => d.Load(a.GetName())));
+                .Let(d => domain.GetAssemblies().ForEach(a => d.Load(a.GetName())));
         }
 
         #region Execute
