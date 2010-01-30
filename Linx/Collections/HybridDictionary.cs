@@ -472,22 +472,22 @@ namespace XSpect.Collections
 
         // When OnItemsMoved is used?
 
-        private void OnItemsMoved(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
+        protected virtual void OnItemsMoved(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
         {
             this.ItemsMoved(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
         }
 
-        private void OnItemsRemoved(IEnumerable<Tuple> removedElements)
+        protected virtual void OnItemsRemoved(IEnumerable<Tuple> removedElements)
         {
             this.ItemsRemoved(this, new NotifyDictionaryChangedEventArgs<TKey,TValue>(removedElements, Enumerable.Empty<Tuple>()));
         }
 
-        private void OnItemsReplaced(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
+        protected virtual void OnItemsReplaced(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
         {
             this.ItemsReplaced(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
         }
 
-        private void OnItemsReset()
+        protected virtual void OnItemsReset()
         {
             this.ItemsReset(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(Enumerable.Empty<Tuple>(), Enumerable.Empty<Tuple>()));
         }
