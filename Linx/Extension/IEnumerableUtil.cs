@@ -157,5 +157,21 @@ namespace XSpect.Extension
                 }
             }
         }
+
+        public static IEnumerable<TSource> TakeLast<TSource>(
+            this IEnumerable<TSource> source,
+            Int32 count
+        )
+        {
+            return source.Skip(source.Count() - count);
+        }
+
+        public static IEnumerable<TSource> SkipLast<TSource>(
+            this IEnumerable<TSource> source,
+            Int32 count
+        )
+        {
+            return source.Take(source.Count() - count);
+        }
     }
 }
