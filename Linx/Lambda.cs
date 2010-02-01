@@ -41,5 +41,12 @@ namespace XSpect
         {
             return New((T obj) => obj);
         }
+
+        public static Action<T> Nop<T>()
+        {
+            return New((T obj) =>
+            {
+            });
+        }
     }
 }
