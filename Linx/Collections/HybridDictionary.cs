@@ -467,29 +467,44 @@ namespace XSpect.Collections
 
         private void OnItemsAdded(IEnumerable<Tuple> addedElements)
         {
-            this.ItemsAdded(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(Enumerable.Empty<Tuple>(), addedElements));
+            if (this.ItemsAdded != null)
+            {
+                this.ItemsAdded(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(Enumerable.Empty<Tuple>(), addedElements));
+            }
         }
 
         // When OnItemsMoved is used?
 
         protected virtual void OnItemsMoved(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
         {
-            this.ItemsMoved(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
+            if (this.ItemsMoved != null)
+            {
+                this.ItemsMoved(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
+            }
         }
 
         protected virtual void OnItemsRemoved(IEnumerable<Tuple> removedElements)
         {
-            this.ItemsRemoved(this, new NotifyDictionaryChangedEventArgs<TKey,TValue>(removedElements, Enumerable.Empty<Tuple>()));
+            if (this.ItemsRemoved != null)
+            {
+                this.ItemsRemoved(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(removedElements, Enumerable.Empty<Tuple>()));
+            }
         }
 
         protected virtual void OnItemsReplaced(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
         {
-            this.ItemsReplaced(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
+            if (this.ItemsReplaced != null)
+            {
+                this.ItemsReplaced(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
+            }
         }
 
         protected virtual void OnItemsReset()
         {
-            this.ItemsReset(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(Enumerable.Empty<Tuple>(), Enumerable.Empty<Tuple>()));
+            if (this.ItemsReset != null)
+            {
+                this.ItemsReset(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(Enumerable.Empty<Tuple>(), Enumerable.Empty<Tuple>()));
+            }
         }
     }
 }
