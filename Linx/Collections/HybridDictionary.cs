@@ -381,7 +381,9 @@ namespace XSpect.Collections
 
         protected virtual void ClearDictionary()
         {
-            IEnumerable<Tuple> list = this.Select((e, i) => new Tuple(i, e.Key, e.Value, this.IsKeyCompliant(i)));
+            IEnumerable<Tuple> list = this
+                .Select((e, i) => new Tuple(i, e.Key, e.Value, this.IsKeyCompliant(i)))
+                .ToList();
             this._keyList.Clear();
             this._dictionary.Clear();
             this.OnItemsReset(list);
@@ -423,7 +425,9 @@ namespace XSpect.Collections
 
         protected virtual IEnumerable<Boolean> RemoveItems(IEnumerable<Int32> indexes)
         {
-            IEnumerable<Tuple> elements = indexes.Select(i => new Tuple(i, this[i], this.IsKeyCompliant(i)));
+            IEnumerable<Tuple> elements = indexes
+                .Select(i => new Tuple(i, this[i], this.IsKeyCompliant(i)))
+                .ToList();
             List<Int32> removedIndexes = new List<Int32>();
             IEnumerable<Boolean> ret = elements.Select(e =>
             {
@@ -438,18 +442,20 @@ namespace XSpect.Collections
 
         protected virtual void SetItems(IEnumerable<Int32> indexes, IEnumerable<TKey> keys, IEnumerable<TValue> values)
         {
-            IEnumerable<Tuple> elements = indexes.ZipWith(
-                keys,
-                values,
-                this.KeySelector == null
-                    ? Make.Repeat(true)
-                    : indexes.ZipWith(
-                          keys,
-                          values,
-                          (i_, k_, v_) => this.KeySelector(i_, v_).Equals(k_)
-                      ),
-                (i, k, v, c) => new Tuple(i, k, v, c)
-            );
+            IEnumerable<Tuple> elements = indexes
+                .ZipWith(
+                    keys,
+                    values,
+                    this.KeySelector == null
+                        ? Make.Repeat(true)
+                        : indexes.ZipWith(
+                              keys,
+                              values,
+                              (i_, k_, v_) => this.KeySelector(i_, v_).Equals(k_)
+                          ),
+                    (i, k, v, c) => new Tuple(i, k, v, c)
+                )
+                .ToList();
             foreach (Tuple e in elements)
             {
                 if (this._keyList[e.Index].Equals(e.Key))
@@ -462,7 +468,12 @@ namespace XSpect.Collections
                     this._keyList[e.Index] = e.Key;
                     this._dictionary.Add(e.Key, e.Value);
                 }
-                this.OnItemsReplaced(elements, indexes.Select(i => new Tuple(i, this[i], this.IsKeyCompliant(i))));
+                this.OnItemsReplaced(
+                    elements,
+                    indexes
+                        .Select(i => new Tuple(i, this[i], this.IsKeyCompliant(i)))
+                        .ToList()
+                );
             }
         }
 
@@ -504,7 +515,7 @@ namespace XSpect.Collections
         {
             if (this.ItemsReset != null)
             {
-                this.ItemsReset(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(Enumerable.Empty<Tuple>(), Enumerable.Empty<Tuple>()));
+                this.ItemsReset(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, Enumerable.Empty<Tuple>()));
             }
         }
     }
