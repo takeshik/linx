@@ -381,9 +381,10 @@ namespace XSpect.Collections
 
         protected virtual void ClearDictionary()
         {
+            IEnumerable<Tuple> list = this.Select((e, i) => new Tuple(i, e.Key, e.Value, this.IsKeyCompliant(i)));
             this._keyList.Clear();
             this._dictionary.Clear();
-            this.OnItemsReset();
+            this.OnItemsReset(list);
         }
 
         protected void InsertItems(IEnumerable<Int32> indexes, IEnumerable<TKey> keys, IEnumerable<TValue> values)
@@ -499,7 +500,7 @@ namespace XSpect.Collections
             }
         }
 
-        protected virtual void OnItemsReset()
+        protected virtual void OnItemsReset(IEnumerable<Tuple> oldElements)
         {
             if (this.ItemsReset != null)
             {

@@ -60,7 +60,7 @@ namespace XSpect.Reflection
             }
         }
 
-        public KeyedCollection<String, CodeDomain> CodeDomains
+        public HybridDictionary<String, CodeDomain> CodeDomains
         {
             get;
             private set;
@@ -112,7 +112,9 @@ namespace XSpect.Reflection
         {
             this.Configuration = XmlConfiguration.Load(configFile);
             this.Languages = new List<LanguageSetting>();
-            this.CodeDomains = new DisposableKeyedCollection<String, CodeDomain>(d => d.Key);
+            this.CodeDomains = new HybridDictionary<String, CodeDomain>((i, d) => d.Key);
+            this.CodeDomains.ItemsRemoved += (sender, e) => e.OldElements.ForEach(_ => _.Value.Dispose());
+            this.CodeDomains.ItemsReset += (sender, e) => e.OldElements.ForEach(_ => _.Value.Dispose());
             this.Setup();
         }
 
@@ -171,7 +173,7 @@ namespace XSpect.Reflection
 
         public Boolean Contains(CodeDomain item)
         {
-            return this.CodeDomains.Contains(item);
+            return this.CodeDomains.ContainsValue(item);
         }
 
         public void CopyTo(CodeDomain[] array, Int32 arrayIndex)
@@ -202,7 +204,7 @@ namespace XSpect.Reflection
 
         public IEnumerator<CodeDomain> GetEnumerator()
         {
-            return this.CodeDomains.GetEnumerator();
+            return this.CodeDomains.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

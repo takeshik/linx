@@ -68,12 +68,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\DisposableKeyedCollection.cs" />
     <Compile Include="Collections\HybridDictionary.cs" />
     <Compile Include="Collections\HybridDictionary.Tuple.cs" />
     <Compile Include="Collections\NotifyDictionaryChangedEventArgs.cs" />
     <Compile Include="Extension\BooleanUtil.cs" />
-    <Compile Include="Collections\GeneralKeyedCollection.cs" />
     <Compile Include="Create.cs" />
     <Compile Include="Extension\DateTimeUtil.cs" />
     <Compile Include="Extension\DirectoryInfoUtil.cs" />

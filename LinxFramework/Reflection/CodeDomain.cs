@@ -53,7 +53,7 @@ namespace XSpect.Reflection
     {
         private Boolean _disposed;
 
-        private readonly GeneralKeyedCollection<AssemblyName, Assembly> _assemblies;
+        private readonly HybridDictionary<AssemblyName, Assembly> _assemblies;
 
         public CodeManager Parent
         {
@@ -77,13 +77,13 @@ namespace XSpect.Reflection
         {
             get
             {
-                return this._assemblies;
+                return this._assemblies.Values;
             }
         }
 
         public CodeDomain(CodeManager parent, String key, AppDomainSetup info)
         {
-            this._assemblies = new GeneralKeyedCollection<AssemblyName, Assembly>(a => a.GetName());
+            this._assemblies = new HybridDictionary<AssemblyName, Assembly>((i, a) => a.GetName());
             this.Parent = parent;
             this.Key = key;
             this.ApplicationDomain = AppDomain.CreateDomain("CodeMgr." + key, null, info);
