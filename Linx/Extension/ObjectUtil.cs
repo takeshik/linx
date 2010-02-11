@@ -32,6 +32,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using Achiral.Extension;
 using Achiral;
 
@@ -176,6 +179,11 @@ namespace XSpect.Extension
         {
             actions.ForEach(a => a(self));
             return self;
+        }
+
+        public static IEnumerable<TSource> AsEnumerable<TSource>(this TSource source)
+        {
+            yield return source;
         }
 
         public static TReceiver Write<TReceiver>(this TReceiver self)
@@ -363,7 +371,7 @@ namespace XSpect.Extension
 
         public static IEnumerable<TSource> Next<TSource>(this TSource source, Func<IEnumerable<TSource>, TSource> generator)
         {
-            return Make.Sequence(source).Next(generator);
+            return source.AsEnumerable().Next(generator);
         }
 
         public static IDictionary<String, Object> ToDictionary(this Object obj)
@@ -373,5 +381,19 @@ namespace XSpect.Extension
                 .ToDictionary();
         }
 
+        public static XElement XmlSerialize<TReceiver>(this TReceiver self, Type type)
+        {
+            return new MemoryStream().Dispose(s =>
+            {
+                new XmlSerializer(type).Serialize(s, self);
+                s.Seek(0, SeekOrigin.Begin);
+                return XmlReader.Create(s).Dispose<XmlReader, XElement>(XElement.Load);
+            });
+        }
+
+        public static XElement XmlSerialize<TReceiver>(this TReceiver self)
+        {
+            return XmlSerialize(self, typeof(TReceiver));
+        }
     }
 }

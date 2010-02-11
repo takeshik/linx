@@ -197,7 +197,7 @@ namespace XSpect.Configuration
                                   type == typeof(XmlConfiguration)
                                       ? new XmlConfiguration(this.ConfigurationFile)
                                             .Let(c => xvalue.CreateReader().Dispose(c.ReadXml))
-                                      : new XmlSerializer(type).Deserialize(xvalue.CreateReader()),
+                                      : xvalue.CreateReader().Dispose(r => new XmlSerializer(type).Deserialize(r)),
                                   xcname.Null(xc => xcname.Value.Substring(6)), // "NAME: "
                                   xcdescription.Null(xc => xcdescription.Value.Substring(6)) // "DESC: "
                               )
@@ -262,12 +262,7 @@ namespace XSpect.Configuration
                     }
                     else
                     {
-                        xvalue = new MemoryStream().Dispose(s =>
-                        {
-                            new XmlSerializer(entry.Type).Serialize(s, entry.UntypedValue);
-                            s.Seek(0, SeekOrigin.Begin);
-                            return XmlReader.Create(s).Dispose(r => XElement.Load(r));
-                        });
+                        xvalue = entry.UntypedValue.XmlSerialize(entry.Type);
                     }
 
                     return new XElement("entry",
