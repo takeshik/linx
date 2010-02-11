@@ -32,6 +32,10 @@ using System.Collections;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 using Achiral;
 using Achiral.Extension;
 using XSpect.Extension;
@@ -41,11 +45,14 @@ namespace XSpect.Collections
     [Serializable()]
     public partial class HybridDictionary<TKey, TValue>
         : IDictionary<TKey, TValue>,
-          IList<KeyValuePair<TKey, TValue>>
+          IList<KeyValuePair<TKey, TValue>>,
+          IXmlSerializable
     {
-        private Dictionary<TKey, TValue> _dictionary;
+        private readonly Dictionary<TKey, TValue> _dictionary;
 
-        private List<TKey> _keyList;
+        private readonly List<TKey> _keyList;
+
+        private Boolean _isKeySelectorEnforced;
 
         #region Interface Implementations
 
@@ -58,9 +65,9 @@ namespace XSpect.Collections
             set
             {
                 this.SetItems(
-                    Make.Sequence(this._keyList.IndexOf(key)),
-                    Make.Sequence(key),
-                    Make.Sequence(value)
+                    this._keyList.IndexOf(key).AsEnumerable(),
+                    key.AsEnumerable(),
+                    value.AsEnumerable()
                 );
             }
         }
@@ -74,9 +81,9 @@ namespace XSpect.Collections
             set
             {
                 this.SetItems(
-                    Make.Sequence(index),
-                    Make.Sequence(value.Key),
-                    Make.Sequence(value.Value)
+                    index.AsEnumerable(),
+                    value.Key.AsEnumerable(),
+                    value.Value.AsEnumerable()
                 );
             }
         }
@@ -116,24 +123,24 @@ namespace XSpect.Collections
         public void Add(TKey key, TValue value)
         {
             this.InsertItems(
-                Make.Sequence(this._keyList.Count),
-                Make.Sequence(key),
-                Make.Sequence(value)
+                this._keyList.Count.AsEnumerable(),
+                key.AsEnumerable(),
+                value.AsEnumerable()
             );
         }
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             this.InsertItems(
-                Make.Sequence(this._keyList.Count),
-                Make.Sequence(item.Key),
-                Make.Sequence(item.Value)
+                this._keyList.Count.AsEnumerable(),
+                item.Key.AsEnumerable(),
+                item.Value.AsEnumerable()
             );
         }
         public void Add(TValue item)
         {
             this.InsertItems(
-                Make.Sequence(this._keyList.Count),
-                Make.Sequence(item)
+                this._keyList.Count.AsEnumerable(),
+                item.AsEnumerable()
             );
         }
 
@@ -180,43 +187,74 @@ namespace XSpect.Collections
         public void Insert(Int32 index, KeyValuePair<TKey, TValue> item)
         {
             this.InsertItems(
-                Make.Sequence(index),
-                Make.Sequence(item.Key),
-                Make.Sequence(item.Value)
+                index.AsEnumerable(),
+                item.Key.AsEnumerable(),
+                item.Value.AsEnumerable()
             );
         }
         public void Insert(Int32 index, TValue item)
         {
             this.InsertItems(
-                Make.Sequence(index),
-                Make.Sequence(item)
+                index.AsEnumerable(),
+                item.AsEnumerable()
             );
         }
 
         public Boolean Remove(TKey key)
         {
-            return this.RemoveItems(Make.Sequence(this._keyList.IndexOf(key)))
+            return this.RemoveItems(this._keyList.IndexOf(key).AsEnumerable())
                 .Single();
         }
         public Boolean Remove(KeyValuePair<TKey, TValue> item)
         {
-            return this.RemoveItems(Make.Sequence(this.Keys.IndexOf(item.Key)))
+            return this.RemoveItems(this.Keys.IndexOf(item.Key).AsEnumerable())
                 .Single();
         }
         public Boolean Remove(TValue item)
         {
-            return this.RemoveItems(Make.Sequence(this.Values.IndexOf(item)))
+            return this.RemoveItems(this.Values.IndexOf(item).AsEnumerable())
                 .Single();
         }
 
         public void RemoveAt(Int32 index)
         {
-            this.RemoveItems(Make.Sequence(index));
+            this.RemoveItems(index.AsEnumerable());
         }
 
         public Boolean TryGetValue(TKey key, out TValue value)
         {
             return this._dictionary.TryGetValue(key, out value);
+        }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            new XmlSerializer(typeof(TKey)).Let(sk =>
+                new XmlSerializer(typeof(TValue)).Let(sv =>
+                    XDocument.Load(reader).Root
+                        .Elements("pair")
+                        .ForEach(xe => this.Add(
+                            (TKey) xe.Element("key").Elements().Single().CreateReader()
+                                .Dispose(r => (sk.Deserialize(r))),
+                            (TValue) xe.Element("value").Elements().Single().CreateReader()
+                                .Dispose(r => (sv.Deserialize(r)))
+                        ))
+                    )
+                );
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            this.Select(p =>
+                new XElement("pair",
+                    new XElement("key", p.Key.XmlSerialize()),
+                    new XElement("value", p.Value.XmlSerialize())
+                )
+            ).ForEach(xe => xe.WriteTo(writer));
         }
 
         #endregion
@@ -234,13 +272,23 @@ namespace XSpect.Collections
         public Func<Int32, TValue, TKey> KeySelector
         {
             get;
-            private set;
+            set;
         }
 
         public Boolean IsKeySelectorEnforced
         {
-            get;
-            private set;
+            get
+            {
+                return this._isKeySelectorEnforced;
+            }
+            set
+            {
+                if (value && !0.UpTo(this.Count - 1).All(this.IsKeyCompliant))
+                {
+                    throw new InvalidOperationException("Couldn't set to enforced mode because keys which is not valid with current key selector exists.");
+                }
+                this._isKeySelectorEnforced = value;
+            }
         }
 
         public IList<TKey> Keys
@@ -275,7 +323,7 @@ namespace XSpect.Collections
         public HybridDictionary(Func<Int32, TValue, TKey> selector, Boolean forced)
         {
             this.KeySelector = selector;
-            this.IsKeySelectorEnforced = forced;
+            this._isKeySelectorEnforced = forced;
             this._dictionary = new Dictionary<TKey, TValue>();
             this._keyList = new List<TKey>();
         }
@@ -301,7 +349,7 @@ namespace XSpect.Collections
         public void AddRange(IEnumerable<TValue> values)
         {
             this.InsertItems(
-                Make.Sequence(this._keyList.Count),
+                this._keyList.Count.AsEnumerable(),
                 values
             );
         }
@@ -326,9 +374,9 @@ namespace XSpect.Collections
         public void Insert(Int32 index, TKey key, TValue value)
         {
             this.InsertItems(
-                Make.Sequence(index),
-                Make.Sequence(key),
-                Make.Sequence(value)
+                index.AsEnumerable(),
+                key.AsEnumerable(),
+                value.AsEnumerable()
             );
         }
 
