@@ -461,6 +461,10 @@ namespace XSpect.Collections
                       ),
                 (i, k, v, c) => new Tuple(i, k, v, c)
             );
+            if (this.IsKeySelectorEnforced && elements.Any(t => !t.IsKeyCompliant))
+            {
+                throw new ArgumentException("Invalid (not compliant) key(s).", "keys");
+            }
             List<Int32> insertedIndexes = new List<Int32>();
             foreach (Tuple e in elements)
             {
