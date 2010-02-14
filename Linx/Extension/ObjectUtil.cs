@@ -181,7 +181,7 @@ namespace XSpect.Extension
             return self;
         }
 
-        public static IEnumerable<TSource> AsEnumerable<TSource>(this TSource source)
+        public static IEnumerable<TSource> ToEnumerable<TSource>(this TSource source)
         {
             yield return source;
         }
@@ -371,7 +371,7 @@ namespace XSpect.Extension
 
         public static IEnumerable<TSource> Next<TSource>(this TSource source, Func<IEnumerable<TSource>, TSource> generator)
         {
-            return source.AsEnumerable().Next(generator);
+            return source.ToEnumerable().Next(generator);
         }
 
         public static IDictionary<String, Object> ToDictionary(this Object obj)

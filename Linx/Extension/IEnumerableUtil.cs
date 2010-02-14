@@ -66,7 +66,7 @@ namespace XSpect.Extension
             IEnumerable<TSource> previous = source.Reverse();
             while (true)
             {
-                yield return (previous = generator(previous).AsEnumerable().Concat(previous)).First();
+                yield return (previous = generator(previous).ToEnumerable().Concat(previous)).First();
             }
         }
 

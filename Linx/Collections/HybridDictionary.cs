@@ -65,9 +65,9 @@ namespace XSpect.Collections
             set
             {
                 this.SetItems(
-                    this._keyList.IndexOf(key).AsEnumerable(),
-                    key.AsEnumerable(),
-                    value.AsEnumerable()
+                    this._keyList.IndexOf(key).ToEnumerable(),
+                    key.ToEnumerable(),
+                    value.ToEnumerable()
                 );
             }
         }
@@ -81,9 +81,9 @@ namespace XSpect.Collections
             set
             {
                 this.SetItems(
-                    index.AsEnumerable(),
-                    value.Key.AsEnumerable(),
-                    value.Value.AsEnumerable()
+                    index.ToEnumerable(),
+                    value.Key.ToEnumerable(),
+                    value.Value.ToEnumerable()
                 );
             }
         }
@@ -123,24 +123,24 @@ namespace XSpect.Collections
         public void Add(TKey key, TValue value)
         {
             this.InsertItems(
-                this._keyList.Count.AsEnumerable(),
-                key.AsEnumerable(),
-                value.AsEnumerable()
+                this._keyList.Count.ToEnumerable(),
+                key.ToEnumerable(),
+                value.ToEnumerable()
             );
         }
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             this.InsertItems(
-                this._keyList.Count.AsEnumerable(),
-                item.Key.AsEnumerable(),
-                item.Value.AsEnumerable()
+                this._keyList.Count.ToEnumerable(),
+                item.Key.ToEnumerable(),
+                item.Value.ToEnumerable()
             );
         }
         public void Add(TValue item)
         {
             this.InsertItems(
-                this._keyList.Count.AsEnumerable(),
-                item.AsEnumerable()
+                this._keyList.Count.ToEnumerable(),
+                item.ToEnumerable()
             );
         }
 
@@ -187,38 +187,38 @@ namespace XSpect.Collections
         public void Insert(Int32 index, KeyValuePair<TKey, TValue> item)
         {
             this.InsertItems(
-                index.AsEnumerable(),
-                item.Key.AsEnumerable(),
-                item.Value.AsEnumerable()
+                index.ToEnumerable(),
+                item.Key.ToEnumerable(),
+                item.Value.ToEnumerable()
             );
         }
         public void Insert(Int32 index, TValue item)
         {
             this.InsertItems(
-                index.AsEnumerable(),
-                item.AsEnumerable()
+                index.ToEnumerable(),
+                item.ToEnumerable()
             );
         }
 
         public Boolean Remove(TKey key)
         {
-            return this.RemoveItems(this._keyList.IndexOf(key).AsEnumerable())
+            return this.RemoveItems(this._keyList.IndexOf(key).ToEnumerable())
                 .Single();
         }
         public Boolean Remove(KeyValuePair<TKey, TValue> item)
         {
-            return this.RemoveItems(this.Keys.IndexOf(item.Key).AsEnumerable())
+            return this.RemoveItems(this.Keys.IndexOf(item.Key).ToEnumerable())
                 .Single();
         }
         public Boolean Remove(TValue item)
         {
-            return this.RemoveItems(this.Values.IndexOf(item).AsEnumerable())
+            return this.RemoveItems(this.Values.IndexOf(item).ToEnumerable())
                 .Single();
         }
 
         public void RemoveAt(Int32 index)
         {
-            this.RemoveItems(index.AsEnumerable());
+            this.RemoveItems(index.ToEnumerable());
         }
 
         public Boolean TryGetValue(TKey key, out TValue value)
@@ -349,7 +349,7 @@ namespace XSpect.Collections
         public void AddRange(IEnumerable<TValue> values)
         {
             this.InsertItems(
-                this._keyList.Count.AsEnumerable(),
+                this._keyList.Count.ToEnumerable(),
                 values
             );
         }
@@ -374,9 +374,9 @@ namespace XSpect.Collections
         public void Insert(Int32 index, TKey key, TValue value)
         {
             this.InsertItems(
-                index.AsEnumerable(),
-                key.AsEnumerable(),
-                value.AsEnumerable()
+                index.ToEnumerable(),
+                key.ToEnumerable(),
+                value.ToEnumerable()
             );
         }
 

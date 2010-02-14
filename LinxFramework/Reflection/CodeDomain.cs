@@ -284,7 +284,7 @@ namespace XSpect.Reflection
                       .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static))
                       .Where(m => m.GetParameters()
                           .Select(p => p.ParameterType)
-                          .SequenceEqual(typeof(IDictionary<String, Object>).AsEnumerable())
+                          .SequenceEqual(typeof(IDictionary<String, Object>).ToEnumerable())
                       )
                       .SingleOrPredicatedSingle(m => m.Name == "Begin")
                       .Invoke(null, Make.Array(arguments));
