@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Codecs\Base64Codec.cs" />
     <Compile Include="Collections\HybridDictionary.cs" />
     <Compile Include="Collections\HybridDictionary.Tuple.cs" />
     <Compile Include="Collections\NotifyDictionaryChangedEventArgs.cs" />
@@ -108,9 +109,11 @@
       <DependentUpon>Lambda.cs</DependentUpon>
     </Compile>
     <Compile Include="MTRandom.cs" />
-    <Compile Include="Net\UriCodec.cs" />
+    <Compile Include="Codecs\UriCodec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplaceTables.cs" />
+    <Compile Include="Codecs\FormatterSerialization.cs" />
+    <Compile Include="Codecs\XmlSerialization.cs" />
     <Compile Include="Struct.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -39,6 +39,7 @@ using System.Xml.Serialization;
 using Achiral;
 using Achiral.Extension;
 using XSpect.Extension;
+using XSpect.Codecs;
 
 namespace XSpect.Collections
 {

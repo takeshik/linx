@@ -32,11 +32,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using Achiral.Extension;
 using Achiral;
+using Achiral.Extension;
 
 namespace XSpect.Extension
 {
@@ -379,21 +376,6 @@ namespace XSpect.Extension
             return obj.GetType().GetProperties()
                 .Select(p => Create.KeyValuePair(p.Name, p.GetValue(obj, null)))
                 .ToDictionary();
-        }
-
-        public static XElement XmlSerialize<TReceiver>(this TReceiver self, Type type)
-        {
-            return new MemoryStream().Dispose(s =>
-            {
-                new XmlSerializer(type).Serialize(s, self);
-                s.Seek(0, SeekOrigin.Begin);
-                return XmlReader.Create(s).Dispose<XmlReader, XElement>(XElement.Load);
-            });
-        }
-
-        public static XElement XmlSerialize<TReceiver>(this TReceiver self)
-        {
-            return XmlSerialize(self, typeof(TReceiver));
         }
     }
 }
