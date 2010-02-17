@@ -32,13 +32,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using Achiral;
 using Achiral.Extension;
 using XSpect.Extension;
 
 namespace XSpect.Codecs
 {
-    [CLSCompliant(false)]
     public static class FormatterSerialization
     {
         public static Byte[] Serialize<TReceiver>(this TReceiver self, IFormatter formatter)
@@ -51,9 +51,30 @@ namespace XSpect.Codecs
         {
             return FormatterSerialization<TReceiver>.Serialize<TFormatter>(self);
         }
+
+        public static String SerializeToString<TReceiver>(this TReceiver obj, IFormatter formatter)
+        {
+            return FormatterSerialization<TReceiver>.SerializeToString(obj, formatter);
+        }
+
+        public static String SerializeToString<TReceiver>(this TReceiver obj, IFormatter formatter, Encoding encoding)
+        {
+            return FormatterSerialization<TReceiver>.SerializeToString(obj, formatter, encoding);
+        }
+
+        public static String SerializeToString<TReceiver, TFormatter>(this TReceiver obj, Encoding encoding)
+            where TFormatter : IFormatter, new()
+        {
+            return FormatterSerialization<TReceiver>.SerializeToString<TFormatter>(obj, encoding);
+        }
+
+        public static String SerializeToString<TReceiver, TFormatter>(this TReceiver obj)
+            where TFormatter : IFormatter, new()
+        {
+            return FormatterSerialization<TReceiver>.SerializeToString<TFormatter>(obj);
+        }
     }
 
-    [CLSCompliant(false)]
     public static class FormatterSerialization<T>
     {
         public static Byte[] Serialize(T obj, IFormatter formatter)
@@ -71,6 +92,28 @@ namespace XSpect.Codecs
             );
         }
 
+        public static String SerializeToString(T obj, IFormatter formatter)
+        {
+            return SerializeToString(obj, formatter, Encoding.UTF8);
+        }
+
+        public static String SerializeToString(T obj, IFormatter formatter, Encoding encoding)
+        {
+            return encoding.GetString(Serialize(obj, formatter));
+        }
+
+        public static String SerializeToString<TFormatter>(T obj, Encoding encoding)
+            where TFormatter : IFormatter, new()
+        {
+            return encoding.GetString(Serialize<TFormatter>(obj));
+        }
+
+        public static String SerializeToString<TFormatter>(T obj)
+            where TFormatter : IFormatter, new()
+        {
+            return SerializeToString<TFormatter>(obj, Encoding.UTF8);
+        }
+
         public static T Deserialize(IEnumerable<Byte> data, IFormatter formatter)
         {
             return new MemoryStream(data.ToArray()).Dispose(s =>
@@ -84,6 +127,28 @@ namespace XSpect.Codecs
             return new MemoryStream(data.ToArray()).Dispose<MemoryStream, T>(s =>
                 (T) new TFormatter().Deserialize(s)
             );
+        }
+
+        public static T DeserializeFromString(String data, IFormatter formatter, Encoding encoding)
+        {
+            return Deserialize(encoding.GetBytes(data), formatter);
+        }
+
+        public static T DeserializeFromString(String data, IFormatter formatter)
+        {
+            return DeserializeFromString(data, formatter, Encoding.UTF8);
+        }
+
+        public static T DeserializeFromString<TFormatter>(String data, Encoding encoding)
+            where TFormatter : IFormatter, new()
+        {
+            return Deserialize<TFormatter>(encoding.GetBytes(data));
+        }
+
+        public static T DeserializeFromString<TFormatter>(String data)
+            where TFormatter : IFormatter, new()
+        {
+            return DeserializeFromString<TFormatter>(data, Encoding.UTF8);
         }
     }
 }
