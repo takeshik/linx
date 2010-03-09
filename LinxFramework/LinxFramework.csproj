@@ -51,10 +51,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Achiral, Version=1.3.1.0, Culture=neutral, PublicKeyToken=0a85b6e51a30d0a5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Achiral.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Dynamic.dll</HintPath>
@@ -89,6 +85,10 @@
     <Compile Include="Reflection\CodeDomain.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Achiral\Achiral\Achiral.csproj">
+      <Project>{4F6D4AD0-B8A5-48FE-8692-B86FCB91D4CB}</Project>
+      <Name>Achiral</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Linx\Linx.csproj">
       <Project>{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}</Project>
       <Name>Linx</Name>
