@@ -173,5 +173,14 @@ namespace XSpect.Extension
         {
             return source.Take(source.Count() - count);
         }
+
+        public static IEnumerable<TSource> Range<TSource>(
+            this IEnumerable<TSource> source,
+            Int32 skipCount,
+            Int32 takeCount
+        )
+        {
+            return source.Skip(skipCount).Take(takeCount);
+        }
     }
 }

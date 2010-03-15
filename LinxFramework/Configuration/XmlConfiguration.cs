@@ -574,15 +574,26 @@ namespace XSpect.Configuration
 
         public void Save(FileInfo file)
         {
-            new MemoryStream().Dispose(stream =>
-                XmlWriter.Create(stream).Dispose(writer =>
-                {
-                    new XmlSerializer(typeof(XmlConfiguration)).Serialize(writer, this);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    XDocument xdoc = XmlReader.Create(stream).Dispose(reader => XDocument.Load(reader));
-                    xdoc.Save(file.FullName, SaveOptions.None);
-                })
-            );
+            FileInfo previous = this.ConfigurationFile;
+            this.ConfigurationFile = file;
+            try
+            {
+                new MemoryStream().Dispose(stream =>
+                    XmlWriter.Create(stream).Dispose(writer =>
+                    {
+                        new XmlSerializer(typeof(XmlConfiguration)).Serialize(writer, this);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        XDocument xdoc = XmlReader.Create(stream).Dispose(reader => XDocument.Load(reader));
+                        xdoc.Save(file.FullName, SaveOptions.None);
+                    })
+                );
+            }
+            catch (Exception)
+            {
+                // Restore path to configuration file if failed
+                this.ConfigurationFile = previous;
+                throw;
+            }
         }
 
         public void Save(String path)
