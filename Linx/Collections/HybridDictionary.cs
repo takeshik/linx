@@ -47,6 +47,7 @@ namespace XSpect.Collections
     public partial class HybridDictionary<TKey, TValue>
         : IDictionary<TKey, TValue>,
           IList<KeyValuePair<TKey, TValue>>,
+          INotifyPropertyChanged,
           IXmlSerializable
     {
         private readonly Dictionary<TKey, TValue> _dictionary;
@@ -56,6 +57,8 @@ namespace XSpect.Collections
         private Boolean _isKeySelectorEnforced;
 
         #region Interface Implementations
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public TValue this[TKey key]
         {
@@ -536,6 +539,8 @@ namespace XSpect.Collections
             {
                 this.ItemsAdded(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(Enumerable.Empty<Tuple>(), addedElements));
             }
+            this.OnPropertyChanged("Count");
+            this.OnPropertyChanged("Item[]");
         }
 
         // When OnItemsMoved is used?
@@ -546,6 +551,7 @@ namespace XSpect.Collections
             {
                 this.ItemsMoved(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
             }
+            this.OnPropertyChanged("Item[]");
         }
 
         protected virtual void OnItemsRemoved(IEnumerable<Tuple> removedElements)
@@ -554,6 +560,8 @@ namespace XSpect.Collections
             {
                 this.ItemsRemoved(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(removedElements, Enumerable.Empty<Tuple>()));
             }
+            this.OnPropertyChanged("Count");
+            this.OnPropertyChanged("Item[]");
         }
 
         protected virtual void OnItemsReplaced(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
@@ -562,6 +570,7 @@ namespace XSpect.Collections
             {
                 this.ItemsReplaced(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, newElements));
             }
+            this.OnPropertyChanged("Item[]");
         }
 
         protected virtual void OnItemsReset(IEnumerable<Tuple> oldElements)
@@ -569,6 +578,16 @@ namespace XSpect.Collections
             if (this.ItemsReset != null)
             {
                 this.ItemsReset(this, new NotifyDictionaryChangedEventArgs<TKey, TValue>(oldElements, Enumerable.Empty<Tuple>()));
+            }
+            this.OnPropertyChanged("Count");
+            this.OnPropertyChanged("Item[]");
+        }
+
+        protected virtual void OnPropertyChanged(String propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
