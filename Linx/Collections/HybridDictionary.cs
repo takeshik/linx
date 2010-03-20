@@ -140,13 +140,6 @@ namespace XSpect.Collections
                 item.Value.ToEnumerable()
             );
         }
-        public void Add(TValue item)
-        {
-            this.InsertItems(
-                this._keyList.Count.ToEnumerable(),
-                item.ToEnumerable()
-            );
-        }
 
         public void Clear()
         {
@@ -166,10 +159,6 @@ namespace XSpect.Collections
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, Int32 arrayIndex)
         {
             (this as IList<KeyValuePair<TKey, TValue>>).CopyTo(array, arrayIndex);
-        }
-        public void CopyTo(TValue[] array, Int32 arrayIndex)
-        {
-            this.Values.CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -196,13 +185,6 @@ namespace XSpect.Collections
                 item.Value.ToEnumerable()
             );
         }
-        public void Insert(Int32 index, TValue item)
-        {
-            this.InsertItems(
-                index.ToEnumerable(),
-                item.ToEnumerable()
-            );
-        }
 
         public Boolean Remove(TKey key)
         {
@@ -212,11 +194,6 @@ namespace XSpect.Collections
         public Boolean Remove(KeyValuePair<TKey, TValue> item)
         {
             return this.RemoveItems(this.Keys.IndexOf(item.Key).ToEnumerable())
-                .Single();
-        }
-        public Boolean Remove(TValue item)
-        {
-            return this.RemoveItems(this.Values.IndexOf(item).ToEnumerable())
                 .Single();
         }
 
@@ -273,6 +250,12 @@ namespace XSpect.Collections
 
         public event EventHandler<NotifyDictionaryChangedEventArgs<TKey, TValue>> ItemsReset;
 
+        public IEqualityComparer<TKey> Comparer
+        {
+            get;
+            private set;
+        }
+
         public Func<Int32, TValue, TKey> KeySelector
         {
             get;
@@ -314,6 +297,14 @@ namespace XSpect.Collections
             }
         }
 
+        public IEnumerable<Tuple> Tuples
+        {
+            get
+            {
+                return this.Select((p, i) => new Tuple(i, p.Key, p.Value, this.IsKeyCompliant(i)));
+            }
+        }
+
         public HybridDictionary()
             : this(null, false)
         {
@@ -325,11 +316,25 @@ namespace XSpect.Collections
         }
 
         public HybridDictionary(Func<Int32, TValue, TKey> selector, Boolean forced)
+            : this(selector, forced, EqualityComparer<TKey>.Default)
+        {
+        }
+
+        public HybridDictionary(Func<Int32, TValue, TKey> selector, Boolean forced, IEqualityComparer<TKey> comparer)
         {
             this.KeySelector = selector;
             this._isKeySelectorEnforced = forced;
-            this._dictionary = new Dictionary<TKey, TValue>();
+            this.Comparer = comparer;
+            this._dictionary = new Dictionary<TKey, TValue>(this.Comparer);
             this._keyList = new List<TKey>();
+        }
+
+        public void Add(TValue item)
+        {
+            this.InsertItems(
+                this._keyList.Count.ToEnumerable(),
+                item.ToEnumerable()
+            );
         }
 
         public void AddRange(IEnumerable<TKey> keys, IEnumerable<TValue> values)
@@ -358,22 +363,68 @@ namespace XSpect.Collections
             );
         }
 
+        public Boolean Contains(TKey key, TValue value)
+        {
+            return this.Contains(new KeyValuePair<TKey, TValue>(key, value));
+        }
+
         public Boolean ContainsValue(TValue value)
         {
             return this._dictionary.ContainsValue(value);
         }
 
-        public Int32 KeyIndexOf(TKey key)
+        public void CopyToKeys(TKey[] array, Int32 arrayIndex)
+        {
+            this.Keys.CopyTo(array, arrayIndex);
+        }
+
+        public void CopyToValues(TValue[] array, Int32 arrayIndex)
+        {
+            this.Values.CopyTo(array, arrayIndex);
+        }
+
+        public IEnumerable<TKey> GetKeys(TValue value)
+        {
+            return this.GetKeys(value, EqualityComparer<TValue>.Default);
+        }
+
+        public IEnumerable<TKey> GetKeys(TValue value, IEqualityComparer<TValue> comparer)
+        {
+            return this.Where(p => comparer.Equals(value, p.Value)).Select(p => p.Key);
+        }
+
+        public TKey GetKey(TValue value)
+        {
+            return this.GetKeys(value).Single();
+        }
+
+        public TKey GetKey(TValue value, IEqualityComparer<TValue> comparer)
+        {
+            return this.GetKeys(value, comparer).Single();
+        }
+
+        public Int32 IndexOf(TKey key, TValue value)
+        {
+            return this.IndexOf(new KeyValuePair<TKey, TValue>(key, value));
+        }
+
+        public Int32 IndexOfKey(TKey key)
         {
             return this.Keys.IndexOf(key);
         }
 
-        public Int32 ValueIndexOf(TValue value)
+        public Int32 IndexOfValue(TValue value)
         {
             return this.Values.IndexOf(value);
         }
 
-        // TODO: IndexOf methods etc.
+        public void Insert(Int32 index, TValue item)
+        {
+            this.InsertItems(
+                index.ToEnumerable(),
+                item.ToEnumerable()
+            );
+        }
 
         public void Insert(Int32 index, TKey key, TValue value)
         {
@@ -416,6 +467,12 @@ namespace XSpect.Collections
             return this.KeySelector(index, this._dictionary[key = this._keyList[index]]).Equals(key);
         }
 
+        public Boolean RemoveValue(TValue item)
+        {
+            return this.RemoveItems(this.Values.IndexOf(item).ToEnumerable())
+                .Single();
+        }
+
         public IEnumerable<Boolean> RemoveRange(IEnumerable<Int32> indexes)
         {
             return this.RemoveItems(indexes);
@@ -428,7 +485,34 @@ namespace XSpect.Collections
 
         public IEnumerable<Boolean> RemoveRange(IEnumerable<TKey> keys)
         {
-            return this.RemoveRange(keys.Select(k => this.KeyIndexOf(k)));
+            return this.RemoveRange(keys.Select(k => this.IndexOfKey(k)));
+        }
+
+        public Boolean TryGetKey(TValue value, out TKey key)
+        {
+            return this.TryGetKey(value, EqualityComparer<TValue>.Default, out key);
+        }
+
+        public Boolean TryGetKey(TValue value, IEqualityComparer<TValue> comparer, out TKey key)
+        {
+            IEnumerable<TKey> keys = this.GetKeys(value, comparer);
+            return keys.Count() == 1
+                ? (key = keys.Single()).True()
+                : (key = default(TKey)).False();
+        }
+
+        public Boolean TryGetValue(Int32 index, out TValue value)
+        {
+            return this.Count < index
+                ? (value = this[index].Value).True()
+                : (value = default(TValue)).False();
+        }
+
+        public Boolean TryGetKeyValue(Int32 index, out Nullable<KeyValuePair<TKey, TValue>> value)
+        {
+            return this.Count < index
+                ? (value = this[index]).True()
+                : (value = null).False();
         }
 
         protected virtual void ClearDictionary()
@@ -533,7 +617,7 @@ namespace XSpect.Collections
             }
         }
 
-        private void OnItemsAdded(IEnumerable<Tuple> addedElements)
+        protected virtual void OnItemsAdded(IEnumerable<Tuple> addedElements)
         {
             if (this.ItemsAdded != null)
             {

@@ -178,12 +178,12 @@ namespace XSpect.Reflection
 
         public void CopyTo(CodeDomain[] array, Int32 arrayIndex)
         {
-            this.CodeDomains.CopyTo(array, arrayIndex);
+            this.CodeDomains.CopyToValues(array, arrayIndex);
         }
 
         public Boolean Remove(CodeDomain item)
         {
-            return this.CodeDomains.Remove(item);
+            return this.CodeDomains.RemoveValue(item);
         }
 
         public Int32 Count
