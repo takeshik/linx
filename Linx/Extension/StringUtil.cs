@@ -69,7 +69,7 @@ namespace XSpect.Extension
 
         public static String Replace(this String str, IDictionary<String, String> replaceTable)
         {
-            return Regex.Replace(str, replaceTable.Keys.Join("|").Quote("(", ")"), m => replaceTable[m.Groups[1].Value]);
+            return Regex.Replace(str, replaceTable.Keys.Select(s => Regex.Escape(s)).Join("|").Quote("(", ")"), m => replaceTable[m.Groups[1].Value]);
         }
 
         public static Boolean StartsWithAny(this String str, params String[] values)

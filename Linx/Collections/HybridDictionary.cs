@@ -297,11 +297,13 @@ namespace XSpect.Collections
             }
         }
 
-        public IEnumerable<Tuple> Tuples
+        public IList<Tuple> Tuples
         {
             get
             {
-                return this.Select((p, i) => new Tuple(i, p.Key, p.Value, this.IsKeyCompliant(i)));
+                return this.Select((p, i) => new Tuple(i, p.Key, p.Value, this.IsKeyCompliant(i)))
+                    .ToList()
+                    .AsReadOnly();
             }
         }
 
@@ -464,7 +466,8 @@ namespace XSpect.Collections
         public Boolean IsKeyCompliant(Int32 index)
         {
             TKey key;
-            return this.KeySelector(index, this._dictionary[key = this._keyList[index]]).Equals(key);
+            return this.KeySelector == null
+                || this.KeySelector(index, this._dictionary[key = this._keyList[index]]).Equals(key);
         }
 
         public Boolean RemoveValue(TValue item)
