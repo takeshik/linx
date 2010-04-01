@@ -99,7 +99,9 @@ namespace XSpect.Collections
 
             public Int32 IndexOf(TValue item)
             {
-                return this._dictionary.IndexOfKey(this._dictionary.GetKey(item));
+                return this._dictionary.Tuples.Where(t =>
+                    this._dictionary.ValueComparer.Equals(t.Value, item)
+                ).First().Index;
             }
 
             void IList<TValue>.Insert(Int32 index, TValue item)
