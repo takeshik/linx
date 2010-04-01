@@ -476,7 +476,7 @@ namespace XSpect.Collections
         {
             TKey key;
             return this.KeySelector == null
-                || this.KeySelector(index, this[key = this.Keys[index]]).Equals(key);
+                || this.KeyComparer.Equals(this.KeySelector(index, this[key = this.Keys[index]]), key);
         }
 
         public Boolean RemoveValue(TValue item)
@@ -552,7 +552,7 @@ namespace XSpect.Collections
                     : indexes.ZipWith(
                           keys,
                           values,
-                          (i_, k_, v_) => this.KeySelector(i_, v_).Equals(k_)
+                          (i_, k_, v_) => this.KeyComparer.Equals(this.KeySelector(i_, v_), k_)
                       ),
                 (i, k, v, c) => new Tuple(i, k, v, c)
             );
@@ -598,14 +598,14 @@ namespace XSpect.Collections
                         : indexes.ZipWith(
                               keys,
                               values,
-                              (i_, k_, v_) => this.KeySelector(i_, v_).Equals(k_)
+                              (i_, k_, v_) => this.KeyComparer.Equals(this.KeySelector(i_, v_), k_)
                           ),
                     (i, k, v, c) => new Tuple(i, k, v, c)
                 )
                 .ToList();
             foreach (Tuple e in elements)
             {
-                if (this.Keys[e.Index].Equals(e.Key))
+                if (this.KeyComparer.Equals(this.Keys[e.Index], e.Key))
                 {
                     this[e.Key] = e.Value;
                 }
