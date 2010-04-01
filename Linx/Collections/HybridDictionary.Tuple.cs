@@ -28,8 +28,6 @@
  */
 
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Collections.Generic;
 
 namespace XSpect.Collections
@@ -74,6 +72,11 @@ namespace XSpect.Collections
             public Tuple(Int32 index, KeyValuePair<TKey, TValue> pair, Boolean isKeyCompliant)
                 : this(index, pair.Key, pair.Value, isKeyCompliant)
             {
+            }
+
+            public override String ToString()
+            {
+                return this.Index + ": " + this.Key + (this.IsKeyCompliant ? " -> " : " => ") + this.Value;
             }
         }
     }

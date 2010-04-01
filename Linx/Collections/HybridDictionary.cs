@@ -31,6 +31,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -44,6 +45,7 @@ using XSpect.Codecs;
 namespace XSpect.Collections
 {
     [Serializable()]
+    [DebuggerDisplay("Count = {Count}")]
     public partial class HybridDictionary<TKey, TValue>
         : IDictionary<TKey, TValue>,
           IList<KeyValuePair<TKey, TValue>>,
@@ -578,7 +580,7 @@ namespace XSpect.Collections
                 Boolean r = this._dictionary.Remove(e.Key);
                 removedIndexes.Add(e.Index);
                 return r;
-            });
+            }).ToList();
             this.OnItemsRemoved(elements);
             return ret;
         }
