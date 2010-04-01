@@ -56,6 +56,10 @@ namespace XSpect.Collections
 
         private readonly List<TKey> _keyList;
 
+        private readonly KeyList _keys;
+
+        private readonly ValueList _values;
+
         private Boolean _isKeySelectorEnforced;
 
         #region Interface Implementations
@@ -71,7 +75,7 @@ namespace XSpect.Collections
             set
             {
                 this.SetItems(
-                    this._keyList.IndexOf(key).ToEnumerable(),
+                    this.Keys.IndexOf(key).ToEnumerable(),
                     key.ToEnumerable(),
                     value.ToEnumerable()
                 );
@@ -81,7 +85,7 @@ namespace XSpect.Collections
         {
             get
             {
-                TKey key = this._keyList[index];
+                TKey key = this.Keys[index];
                 return new KeyValuePair<TKey, TValue>(key, this._dictionary[key]);
             }
             set
@@ -98,15 +102,15 @@ namespace XSpect.Collections
         {
             get
             {
-                return this._keyList.Count;
+                return this.Keys.Count;
             }
         }
 
-        public Boolean IsReadOnly
+        Boolean ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
         {
             get
             {
-                return (this._keyList as IList<TKey>).IsReadOnly;
+                return false;
             }
         }
 
@@ -129,7 +133,7 @@ namespace XSpect.Collections
         public void Add(TKey key, TValue value)
         {
             this.InsertItems(
-                this._keyList.Count.ToEnumerable(),
+                this.Keys.Count.ToEnumerable(),
                 key.ToEnumerable(),
                 value.ToEnumerable()
             );
@@ -137,7 +141,7 @@ namespace XSpect.Collections
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             this.InsertItems(
-                this._keyList.Count.ToEnumerable(),
+                this.Keys.Count.ToEnumerable(),
                 item.Key.ToEnumerable(),
                 item.Value.ToEnumerable()
             );
@@ -155,17 +159,17 @@ namespace XSpect.Collections
 
         public Boolean ContainsKey(TKey key)
         {
-            return this._keyList.Contains(key);
+            return this.Keys.Contains(key);
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, Int32 arrayIndex)
         {
-            (this as IList<KeyValuePair<TKey, TValue>>).CopyTo(array, arrayIndex);
+            this.ForEach((e, i) => array[arrayIndex + i] = e);
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return this._keyList.Select(k => new KeyValuePair<TKey, TValue>(k, this._dictionary[k]))
+            return this.Keys.Select(k => new KeyValuePair<TKey, TValue>(k, this._dictionary[k]))
                 .GetEnumerator();
         }
 
@@ -176,7 +180,7 @@ namespace XSpect.Collections
 
         public Int32 IndexOf(KeyValuePair<TKey, TValue> item)
         {
-            return this._keyList.IndexOf(item.Key);
+            return this.Keys.IndexOf(item.Key);
         }
 
         public void Insert(Int32 index, KeyValuePair<TKey, TValue> item)
@@ -190,7 +194,7 @@ namespace XSpect.Collections
 
         public Boolean Remove(TKey key)
         {
-            return this.RemoveItems(this._keyList.IndexOf(key).ToEnumerable())
+            return this.RemoveItems(this.Keys.IndexOf(key).ToEnumerable())
                 .Single();
         }
         public Boolean Remove(KeyValuePair<TKey, TValue> item)
@@ -280,22 +284,19 @@ namespace XSpect.Collections
             }
         }
 
-        public IList<TKey> Keys
+        public KeyList Keys
         {
             get
             {
-                return this._keyList.AsReadOnly();
+                return this._keys;
             }
         }
 
-        public IList<TValue> Values
+        public ValueList Values
         {
             get
             {
-                return this._keyList
-                    .Select(k => this._dictionary[k])
-                    .ToList()
-                    .AsReadOnly();
+                return this._values;
             }
         }
 
@@ -331,12 +332,14 @@ namespace XSpect.Collections
             this.Comparer = comparer;
             this._dictionary = new Dictionary<TKey, TValue>(this.Comparer);
             this._keyList = new List<TKey>();
+            this._keys = new KeyList(this);
+            this._values = new ValueList(this);
         }
 
         public void Add(TValue item)
         {
             this.InsertItems(
-                this._keyList.Count.ToEnumerable(),
+                this.Keys.Count.ToEnumerable(),
                 item.ToEnumerable()
             );
         }
@@ -344,7 +347,7 @@ namespace XSpect.Collections
         public void AddRange(IEnumerable<TKey> keys, IEnumerable<TValue> values)
         {
             this.InsertItems(
-                Make.Repeat(this._keyList.Count),
+                Enumerable.Range(this.Keys.Count, keys.Count()),
                 keys,
                 values
             );
@@ -353,7 +356,7 @@ namespace XSpect.Collections
         public void AddRange(IEnumerable<KeyValuePair<TKey, TValue>> pairs)
         {
             this.InsertItems(
-                Make.Repeat(this._keyList.Count),
+                Enumerable.Range(this.Keys.Count, pairs.Count()),
                 pairs.Select(p => p.Key),
                 pairs.Select(p => p.Value)
             );
@@ -362,7 +365,7 @@ namespace XSpect.Collections
         public void AddRange(IEnumerable<TValue> values)
         {
             this.InsertItems(
-                this._keyList.Count.ToEnumerable(),
+                this.Keys.Count.ToEnumerable(),
                 values
             );
         }
@@ -384,7 +387,7 @@ namespace XSpect.Collections
 
         public void CopyToValues(TValue[] array, Int32 arrayIndex)
         {
-            this.Values.CopyTo(array, arrayIndex);
+            this.Values.CopyTo(array, arrayIndex); 
         }
 
         public IEnumerable<TKey> GetKeys(TValue value)
@@ -469,7 +472,7 @@ namespace XSpect.Collections
         {
             TKey key;
             return this.KeySelector == null
-                || this.KeySelector(index, this._dictionary[key = this._keyList[index]]).Equals(key);
+                || this.KeySelector(index, this._dictionary[key = this.Keys[index]]).Equals(key);
         }
 
         public Boolean RemoveValue(TValue item)
@@ -478,19 +481,19 @@ namespace XSpect.Collections
                 .Single();
         }
 
-        public IEnumerable<Boolean> RemoveRange(IEnumerable<Int32> indexes)
+        public IEnumerable<Boolean> RemoveRange(IEnumerable<TKey> keys)
+        {
+            return this.RemoveAtRange(keys.Select(k => this.IndexOfKey(k)));
+        }
+
+        public IEnumerable<Boolean> RemoveAtRange(IEnumerable<Int32> indexes)
         {
             return this.RemoveItems(indexes);
         }
 
-        public IEnumerable<Boolean> RemoveRange(Int32 index, Int32 count)
+        public IEnumerable<Boolean> RemoveAtRange(Int32 index, Int32 count)
         {
-            return this.RemoveRange(Enumerable.Range(index, count));
-        }
-
-        public IEnumerable<Boolean> RemoveRange(IEnumerable<TKey> keys)
-        {
-            return this.RemoveRange(keys.Select(k => this.IndexOfKey(k)));
+            return this.RemoveAtRange(Enumerable.Range(index, count));
         }
 
         public Boolean TryGetKey(TValue value, out TKey key)
@@ -603,7 +606,7 @@ namespace XSpect.Collections
                 .ToList();
             foreach (Tuple e in elements)
             {
-                if (this._keyList[e.Index].Equals(e.Key))
+                if (this.Keys[e.Index].Equals(e.Key))
                 {
                     this._dictionary[e.Key] = e.Value;
                 }
@@ -631,8 +634,6 @@ namespace XSpect.Collections
             this.OnPropertyChanged("Count");
             this.OnPropertyChanged("Item[]");
         }
-
-        // When OnItemsMoved is used?
 
         protected virtual void OnItemsMoved(IEnumerable<Tuple> oldElements, IEnumerable<Tuple> newElements)
         {
