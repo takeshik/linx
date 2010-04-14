@@ -66,10 +66,18 @@
   <ItemGroup>
     <Compile Include="Codecs\Base64Codec.cs" />
     <Compile Include="Collections\HybridDictionary.cs" />
-    <Compile Include="Collections\HybridDictionary.KeyList.cs" />
-    <Compile Include="Collections\HybridDictionary.Tuple.cs" />
-    <Compile Include="Collections\HybridDictionary.ValueList.cs" />
+    <Compile Include="Collections\HybridDictionary.KeyList.cs">
+      <DependentUpon>HybridDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\HybridDictionary.Tuple.cs">
+      <DependentUpon>HybridDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\HybridDictionary.ValueList.cs">
+      <DependentUpon>HybridDictionary.cs</DependentUpon>
+    </Compile>
     <Compile Include="Collections\NotifyDictionaryChangedEventArgs.cs" />
+    <Compile Include="Collections\TransparentEnumerable.cs" />
+    <Compile Include="Collections\TransparentEnumerator.cs" />
     <Compile Include="Extension\BooleanUtil.cs" />
     <Compile Include="Create.cs" />
     <Compile Include="Extension\DateTimeUtil.cs" />
@@ -113,6 +121,7 @@
     <Compile Include="Codecs\FormatterSerialization.cs" />
     <Compile Include="Codecs\XmlSerialization.cs" />
     <Compile Include="Struct.cs" />
+    <Compile Include="WeakReference.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Achiral\Achiral\Achiral.csproj">

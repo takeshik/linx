@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Achiral;
 using Achiral.Extension;
+using XSpect.Collections;
 
 namespace XSpect.Extension
 {
@@ -181,6 +182,11 @@ namespace XSpect.Extension
         )
         {
             return source.Skip(skipCount).Take(takeCount);
+        }
+
+        public static IEnumerable<TSource> AsTransparent<TSource>(this IEnumerable<TSource> source)
+        {
+            return new TransparentEnumerable<TSource>(source);
         }
     }
 }
