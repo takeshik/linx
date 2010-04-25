@@ -245,19 +245,19 @@ namespace XSpect
 
     public delegate TReturn FuncRef8<TRef1, TRef2, TRef3, TRef4, TRef5, TRef6, TRef7, TRef8, TReturn>(ref TRef1 argRef1, ref TRef2 argRef2, ref TRef3 argRef3, ref TRef4 argRef4, ref TRef5 argRef5, ref TRef6 argRef6, ref TRef7 argRef7, ref TRef8 argRef8);
 
-    public delegate TReturn FuncOut1<TOut, TReturn>(out TOut argRef);
+    public delegate TReturn FuncOut1<TOut, TReturn>(out TOut argOut);
 
-    public delegate TReturn FuncOut1<T, TOut, TReturn>(T arg1, out TOut argRef);
+    public delegate TReturn FuncOut1<T, TOut, TReturn>(T arg1, out TOut argOut);
 
     public delegate TReturn FuncOut2<TOut1, TOut2, TReturn>(out TOut1 argOut1, out TOut2 argOut2);
 
-    public delegate TReturn FuncOut1<T1, T2, TOut, TReturn>(T1 arg1, T2 arg2, out TOut argRef);
+    public delegate TReturn FuncOut1<T1, T2, TOut, TReturn>(T1 arg1, T2 arg2, out TOut argOut);
 
     public delegate TReturn FuncOut2<T, TOut1, TOut2, TReturn>(T arg1, out TOut1 argOut1, out TOut2 argOut2);
 
     public delegate TReturn FuncOut3<TOut1, TOut2, TOut3, TReturn>(out TOut1 argOut1, out TOut2 argOut2, out TOut3 argOut3);
 
-    public delegate TReturn FuncOut1<T1, T2, T3, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, out TOut argRef);
+    public delegate TReturn FuncOut1<T1, T2, T3, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, out TOut argOut);
 
     public delegate TReturn FuncOut2<T1, T2, TOut1, TOut2, TReturn>(T1 arg1, T2 arg2, out TOut1 argOut1, out TOut2 argOut2);
 
@@ -265,7 +265,7 @@ namespace XSpect
 
     public delegate TReturn FuncOut4<TOut1, TOut2, TOut3, TOut4, TReturn>(out TOut1 argOut1, out TOut2 argOut2, out TOut3 argOut3, out TOut4 argOut4);
 
-    public delegate TReturn FuncOut1<T1, T2, T3, T4, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TOut argRef);
+    public delegate TReturn FuncOut1<T1, T2, T3, T4, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TOut argOut);
 
     public delegate TReturn FuncOut2<T1, T2, T3, TOut1, TOut2, TReturn>(T1 arg1, T2 arg2, T3 arg3, out TOut1 argOut1, out TOut2 argOut2);
 
@@ -275,7 +275,7 @@ namespace XSpect
 
     public delegate TReturn FuncOut5<TOut1, TOut2, TOut3, TOut4, TOut5, TReturn>(out TOut1 argOut1, out TOut2 argOut2, out TOut3 argOut3, out TOut4 argOut4, out TOut5 argOut5);
 
-    public delegate TReturn FuncOut1<T1, T2, T3, T4, T5, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TOut argRef);
+    public delegate TReturn FuncOut1<T1, T2, T3, T4, T5, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, out TOut argOut);
 
     public delegate TReturn FuncOut2<T1, T2, T3, T4, TOut1, TOut2, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, out TOut1 argOut1, out TOut2 argOut2);
 
@@ -301,7 +301,7 @@ namespace XSpect
 
     public delegate TReturn FuncOut7<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TReturn>(out TOut1 argOut1, out TOut2 argOut2, out TOut3 argOut3, out TOut4 argOut4, out TOut5 argOut5, out TOut6 argOut6, out TOut7 argOut7);
 
-    public delegate TReturn FuncOut1<T1, T2, T3, T4, T5, T6, T7, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, out TOut argRef);
+    public delegate TReturn FuncOut1<T1, T2, T3, T4, T5, T6, T7, TOut, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, out TOut argOut);
 
     public delegate TReturn FuncOut2<T1, T2, T3, T4, T5, T6, TOut1, TOut2, TReturn>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, out TOut1 argOut1, out TOut2 argOut2);
 
