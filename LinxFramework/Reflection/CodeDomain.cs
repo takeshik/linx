@@ -350,5 +350,33 @@ namespace XSpect.Reflection
         }
 
         #endregion
+
+        #region DoCallback
+
+        public T DoCallback<T>(Func<Object, T> callback, Object argument)
+        {
+            this.CheckIfDisposed();
+            return new DoCallbackHelper<T>(this.ApplicationDomain, callback, argument).DoCallback();
+        }
+
+        public T DoCallback<T>(Func<T> callback)
+        {
+            this.CheckIfDisposed();
+            return new DoCallbackHelper<T>(this.ApplicationDomain, callback).DoCallback();
+        }
+
+        public void DoCallback(Action<Object> callback, Object argument)
+        {
+            this.CheckIfDisposed();
+            new DoCallbackHelper(this.ApplicationDomain, callback, argument).DoCallback();
+        }
+
+        public void DoCallback(Action callback)
+        {
+            this.CheckIfDisposed();
+            new DoCallbackHelper(this.ApplicationDomain, callback).DoCallback();
+        }
+
+        #endregion
     }
 }
