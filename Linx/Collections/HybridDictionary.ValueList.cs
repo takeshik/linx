@@ -73,7 +73,10 @@ namespace XSpect.Collections
 
             public void CopyTo(TValue[] array, Int32 arrayIndex)
             {
-                this.ToList().CopyTo(array, arrayIndex);
+                for (Int32 i = arrayIndex; i < array.Length; ++i)
+                {
+                    array[i - arrayIndex] = this[i];
+                }
             }
 
             Boolean ICollection<TValue>.Remove(TValue item)
