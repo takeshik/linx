@@ -42,67 +42,86 @@ namespace XSpect.Reflection
     partial class CodeDomain
     {
         [Serializable()]
-        protected class DoCallbackHelper<T>
-            : MarshalByRefObject
+        public delegate T Callback<T>();
+
+        [Serializable()]
+        public delegate T ParameterizedCallback<T>(Object argument);
+
+        [Serializable()]
+        public delegate void Callback();
+
+        [Serializable()]
+        public delegate void ParameterizedCallback(Object argument);
+
+        [Serializable()]
+        protected sealed class DoCallbackHelper<T>
+            : Object
         {
             private readonly AppDomain _domain;
 
-            private readonly Func<Object, T> _callback;
+            private readonly Callback<T> _callback;
+
+            private readonly ParameterizedCallback<T> _parameterizedCallback;
 
             private readonly Object _argument;
 
             private T _returnValue;
 
-            public DoCallbackHelper(AppDomain domain, Func<Object, T> callback, Object argument)
+            public DoCallbackHelper(AppDomain domain, Callback<T> callback)
             {
                 this._domain = domain;
                 this._callback = callback;
-                this._argument = argument;
             }
 
-            public DoCallbackHelper(AppDomain domain, Func<T> callback)
+            public DoCallbackHelper(AppDomain domain, ParameterizedCallback<T> callback, Object argument)
             {
                 this._domain = domain;
-                this._callback = _ => callback();
-                this._argument = null;
+                this._parameterizedCallback = callback;
+                this._argument = argument;
             }
 
             public T DoCallback()
             {
-                this._domain.DoCallBack(() => this._returnValue = this._callback(this._argument));
+                this._domain.DoCallBack(this._callback != null
+                    ? (CrossAppDomainDelegate) (() => this._returnValue = this._callback())
+                    : () => this._returnValue = this._parameterizedCallback(this._argument)
+                );
                 return this._returnValue;
             }
         }
 
         [Serializable()]
-        protected class DoCallbackHelper
-            : MarshalByRefObject
+        protected sealed class DoCallbackHelper
+            : Object
         {
             private readonly AppDomain _domain;
 
-            private readonly Action<Object> _callback;
+            private readonly Callback _callback;
+
+            private readonly ParameterizedCallback _parameterizedCallback;
 
             private readonly Object _argument;
 
-            public DoCallbackHelper(AppDomain domain, Action<Object> callback, Object argument)
+            public DoCallbackHelper(AppDomain domain, Callback callback)
             {
                 this._domain = domain;
                 this._callback = callback;
-                this._argument = argument;
             }
 
-            public DoCallbackHelper(AppDomain domain, Action callback)
+            public DoCallbackHelper(AppDomain domain, ParameterizedCallback callback, Object argument)
             {
                 this._domain = domain;
-                this._callback = _ => callback();
-                this._argument = null;
+                this._parameterizedCallback = callback;
+                this._argument = argument;
             }
 
             public void DoCallback()
             {
-                this._domain.DoCallBack(() => this._callback(this._argument));
+                this._domain.DoCallBack(this._callback != null
+                    ? (CrossAppDomainDelegate) (() => this._callback())
+                    : () => this._parameterizedCallback(this._argument)
+                );
             }
         }
-
     }
 }
