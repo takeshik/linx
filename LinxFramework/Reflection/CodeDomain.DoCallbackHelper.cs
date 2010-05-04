@@ -31,11 +31,7 @@
  */
 
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
 
 namespace XSpect.Reflection
 {
@@ -45,82 +41,164 @@ namespace XSpect.Reflection
         public delegate T Callback<T>();
 
         [Serializable()]
-        public delegate T ParameterizedCallback<T>(Object argument);
+        public delegate T ParameterizedCallback<T>(AppDomainDataAccessor data);
 
         [Serializable()]
         public delegate void Callback();
 
         [Serializable()]
-        public delegate void ParameterizedCallback(Object argument);
+        public delegate void ParameterizedCallback(AppDomainDataAccessor data);
 
         [Serializable()]
-        protected sealed class DoCallbackHelper<T>
+        public class DoCallbackHelper
             : Object
         {
-            private readonly AppDomain _domain;
-
-            private readonly Callback<T> _callback;
-
-            private readonly ParameterizedCallback<T> _parameterizedCallback;
-
-            private readonly Object _argument;
-
-            private T _returnValue;
-
-            public DoCallbackHelper(AppDomain domain, Callback<T> callback)
+            protected AppDomain Domain
             {
-                this._domain = domain;
-                this._callback = callback;
+                get;
+                private set;
             }
 
-            public DoCallbackHelper(AppDomain domain, ParameterizedCallback<T> callback, Object argument)
+            protected String Prefix
             {
-                this._domain = domain;
-                this._parameterizedCallback = callback;
-                this._argument = argument;
+                get;
+                set;
             }
 
-            public T DoCallback()
+            protected String LockObjectDataPrefix
             {
-                this._domain.DoCallBack(this._callback != null
-                    ? (CrossAppDomainDelegate) (() => this._returnValue = this._callback())
-                    : () => this._returnValue = this._parameterizedCallback(this._argument)
-                );
-                return this._returnValue;
+                get
+                {
+                    return "<CodeDomain+DoCallbackHelper.LockObject>_" + this.Prefix;
+                }
             }
-        }
 
-        [Serializable()]
-        protected sealed class DoCallbackHelper
-            : Object
-        {
-            private readonly AppDomain _domain;
+            protected String ArgumentDataPrefix
+            {
+                get
+                {
+                    return "<CodeDomain+DoCallbackHelper.Arguments>_" + this.Prefix + ":";
+                }
+            }
 
-            private readonly Callback _callback;
+            protected Delegate CallbackDelegate
+            {
+                get;
+                private set;
+            }
 
-            private readonly ParameterizedCallback _parameterizedCallback;
+            protected IDictionary<String, Object> Arguments
+            {
+                get;
+                private set;
+            }
 
-            private readonly Object _argument;
+            protected DoCallbackHelper(AppDomain domain, Delegate callback, IDictionary<String, Object> arguments)
+            {
+                this.Domain = domain;
+                this.CallbackDelegate = callback;
+                this.Arguments = arguments;
+            }
 
             public DoCallbackHelper(AppDomain domain, Callback callback)
+                : this(domain, callback, null)
             {
-                this._domain = domain;
-                this._callback = callback;
             }
 
-            public DoCallbackHelper(AppDomain domain, ParameterizedCallback callback, Object argument)
+            public DoCallbackHelper(AppDomain domain, ParameterizedCallback callback, IDictionary<String, Object> arguments)
+                : this(domain, (Delegate) callback, arguments)
             {
-                this._domain = domain;
-                this._parameterizedCallback = callback;
-                this._argument = argument;
+                this.SetPrefix();
             }
 
             public void DoCallback()
             {
-                this._domain.DoCallBack(this._callback != null
-                    ? (CrossAppDomainDelegate) (() => this._callback())
-                    : () => this._parameterizedCallback(this._argument)
-                );
+                if (this.Arguments != null)
+                {
+                    this.Wind();
+                    this.Domain.DoCallBack(() =>
+                        ((ParameterizedCallback) this.CallbackDelegate)(new AppDomainDataAccessor(this.Domain, this.ArgumentDataPrefix, true))
+                    );
+                    this.Unwind();
+                }
+                else
+                {
+                    this.Domain.DoCallBack(() => ((Callback) this.CallbackDelegate)());
+                }
+            }
+
+            protected void SetPrefix()
+            {
+                this.Prefix = String.Empty;
+                do
+                {
+                    this.Prefix = DateTime.UtcNow.Ticks + "-" + Guid.NewGuid().ToString("N");
+                } while (this.Domain.GetData(this.LockObjectDataPrefix) != null);
+                this.Domain.SetData(this.LockObjectDataPrefix, new Object());
+            }
+
+            protected void Wind()
+            {
+                foreach (KeyValuePair<String, Object> p in this.Arguments)
+                {
+                    this.Domain.SetData(this.ArgumentDataPrefix + p.Key, p.Value);
+                }
+            }
+
+            protected void Unwind()
+            {
+                foreach (KeyValuePair<String, Object> p in this.Arguments)
+                {
+                    this.Domain.SetData(this.ArgumentDataPrefix + p.Key, null);
+                }
+            }
+        }
+
+        [Serializable()]
+        public class DoCallbackHelper<T>
+            : DoCallbackHelper
+        {
+            protected String ReturnValueDataPrefix
+            {
+                get
+                {
+                    return "<CodeDomain+DoCallbackHelper.ReturnValue>_" + this.Prefix;
+                }
+            }
+
+            public DoCallbackHelper(AppDomain domain, Callback<T> callback)
+                : base(domain, callback, null)
+            {
+                this.SetPrefix();
+            }
+
+            public DoCallbackHelper(AppDomain domain, ParameterizedCallback<T> callback, IDictionary<String, Object> arguments)
+                : base(domain, callback, arguments)
+            {
+                this.SetPrefix();
+            }
+
+            public new T DoCallback()
+            {
+                if (this.Arguments != null)
+                {
+                    this.Wind();
+                    this.Domain.DoCallBack(() => AppDomain.CurrentDomain.SetData(
+                        this.ReturnValueDataPrefix,
+                        ((ParameterizedCallback<T>) this.CallbackDelegate)(new AppDomainDataAccessor(this.Domain, this.ArgumentDataPrefix, true))
+                    ));
+                    this.Unwind();
+                }
+                else
+                {
+                    this.Domain.DoCallBack(() => AppDomain.CurrentDomain.SetData(
+                        this.ReturnValueDataPrefix,
+                        ((Callback<T>) this.CallbackDelegate)()
+                    ));
+                }
+                T value = (T) this.Domain.GetData(this.ReturnValueDataPrefix);
+                this.Domain.SetData(this.ReturnValueDataPrefix, null);
+                return value;
             }
         }
     }
