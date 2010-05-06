@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDomainDataAccessor.cs" />
     <Compile Include="Codecs\Base64Codec.cs" />
     <Compile Include="Collections\HybridDictionary.cs" />
     <Compile Include="Collections\HybridDictionary.KeyList.cs">

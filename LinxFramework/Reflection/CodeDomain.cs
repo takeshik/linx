@@ -37,11 +37,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Scripting;
-using Microsoft.Scripting.Hosting;
 using Achiral;
 using Achiral.Extension;
-using XSpect;
-using XSpect.Collections;
 using XSpect.Extension;
 
 namespace XSpect.Reflection
@@ -52,8 +49,6 @@ namespace XSpect.Reflection
           IDisposable
     {
         private Boolean _disposed;
-
-        private readonly HybridDictionary<AssemblyName, Assembly> _assemblies;
 
         public CodeManager Parent
         {
@@ -73,17 +68,16 @@ namespace XSpect.Reflection
             private set;
         }
 
-        public IEnumerable<Assembly> Assemblies
+        public IEnumerable<AssemblyName> Assemblies
         {
             get
             {
-                return this._assemblies.Values;
+                return this.DoCallback(() => AppDomain.CurrentDomain.GetAssemblies().Select(a => a.GetName()));
             }
         }
 
         public CodeDomain(CodeManager parent, String key, AppDomainSetup info)
         {
-            this._assemblies = new HybridDictionary<AssemblyName, Assembly>((i, a) => a.GetName());
             this.Parent = parent;
             this.Key = key;
             this.ApplicationDomain = AppDomain.CreateDomain("CodeMgr." + key, null, info);
@@ -161,59 +155,59 @@ namespace XSpect.Reflection
             }
         }
 
-        private Assembly RegisterAssembly(Assembly assembly)
-        {
-            this._assemblies.Add(assembly);
-            return assembly;
-        }
-
         #region Load / LoadFile / LoadFrom
 
-        public Assembly Load(AssemblyName assemblyRef)
+        public AssemblyName Load(AssemblyName assemblyRef)
         {
             this.CheckIfDisposed();
-            return RegisterAssembly(
-                new LoadHelper(this.ApplicationDomain, assemblyRef).Load()
+            return this.DoCallback(
+                d => Assembly.Load(d.Get<AssemblyName>("r")).GetName(),
+                Make.Dictionary<Object>(r => assemblyRef)
             );
         }
 
-        public Assembly Load(String assemblyString)
+        public AssemblyName Load(String assemblyString)
         {
             this.CheckIfDisposed();
-            return RegisterAssembly(
-                new LoadHelper(this.ApplicationDomain, assemblyString).Load()
+            return this.DoCallback(
+                d => Assembly.Load(d.Get<String>("s")).GetName(),
+                Make.Dictionary<Object>(s => assemblyString)
             );
         }
 
-        public Assembly Load(Byte[] rawAssembly)
+        public AssemblyName Load(Byte[] rawAssembly)
         {
             this.CheckIfDisposed();
-            return RegisterAssembly(
-                new LoadHelper(this.ApplicationDomain, rawAssembly).Load()
+            return this.DoCallback(
+                d => Assembly.Load(d.Get<Byte[]>("a")).GetName(),
+                Make.Dictionary<Object>(a => rawAssembly)
             );
         }
 
-        public Assembly Load(Byte[] rawAssembly, Byte[] rawSymbolStore)
+        public AssemblyName Load(Byte[] rawAssembly, Byte[] rawSymbolStore)
         {
             this.CheckIfDisposed();
-            return RegisterAssembly(
-                new LoadHelper(this.ApplicationDomain, rawAssembly, rawSymbolStore).Load()
+            return this.DoCallback(
+                d => Assembly.Load(d.Get<Byte[]>("a"), d.Get<Byte[]>("s")).GetName(),
+                Make.Dictionary<Object>(a => rawAssembly, s => rawSymbolStore)
             );
         }
 
-        public Assembly LoadFile(String path)
+        public AssemblyName LoadFile(String path)
         {
             this.CheckIfDisposed();
-            return RegisterAssembly(
-                new LoadHelper(this.ApplicationDomain, path).LoadFile()
+            return this.DoCallback(
+                d => Assembly.LoadFile(d.Get<String>("p")).GetName(),
+                Make.Dictionary<Object>(p => path)
             );
         }
 
-        public Assembly LoadFrom(String assemblyFile)
+        public AssemblyName LoadFrom(String assemblyFile)
         {
             this.CheckIfDisposed();
-            return RegisterAssembly(
-                new LoadHelper(this.ApplicationDomain, assemblyFile).LoadFrom()
+            return this.DoCallback(
+                d => Assembly.LoadFrom(d.Get<String>("f")).GetName(),
+                Make.Dictionary<Object>(f => assemblyFile)
             );
         }
 
@@ -221,42 +215,67 @@ namespace XSpect.Reflection
 
         #region Compile
 
-        private Assembly Compile(LanguageSetting language, String source, Boolean generateInMemory)
+        private AssemblyName Compile(LanguageSetting language, String source, Boolean generateInMemory)
         {
             this.CheckIfDisposed();
-            return RegisterAssembly(new CompileHelper(
-                this.ApplicationDomain,
-                language.Type
-                    .GetConstructor(Create.TypeArray<IDictionary<String, String>>())
-                    .Invoke(Make.Array(language.Options)) as CodeDomProvider,
-                new CompilerParameters(
-                    this.ApplicationDomain.GetAssemblies()
-                    .Select(a => a.GetName().FullName)
-                    .ToArray()
-                )
+            return this.DoCallback(
+                d =>
                 {
-                    GenerateInMemory = generateInMemory,
+                    CompilerResults results = ((CodeDomProvider) d.Get<LanguageSetting>("l").Type
+                        .GetConstructor(new Type[] { typeof(IDictionary<String, String>), })
+                        .Invoke(new Object[] { d.Get<LanguageSetting>("l").Options, })
+                    )
+                        .CompileAssemblyFromSource(
+                            new CompilerParameters(
+                                AppDomain.CurrentDomain.GetAssemblies()
+                                    .Select(a => a.FullName)
+                                    .ToArray()
+                            )
+                            {
+                                GenerateInMemory = d.Get<Boolean>("m"),
+                            },
+                            d.Get<String>("s")
+                        );
+                    if (results.Errors.HasErrors)
+                    {
+                        String message = String.Empty;
+                        foreach (CompilerError error in results.Errors)
+                        {
+                            message += String.Format(
+                                "{0} ({1}, {2}) {3}: {4}{5}",
+                                error.FileName,
+                                error.Line,
+                                error.Column,
+                                error.ErrorNumber,
+                                error.ErrorText,
+                                Environment.NewLine
+                            );
+                        }
+                        throw new InvalidOperationException(message);
+                    }
+                    results.TempFiles.Delete();
+                    return results.CompiledAssembly.GetName();
                 },
-                source
-            ).Compile());
+                Make.Dictionary<Object>(l => language, s => source, m => generateInMemory)
+            );
         }
 
-        public Assembly Compile(LanguageSetting language, String source)
+        public AssemblyName Compile(LanguageSetting language, String source)
         {
             return this.Compile(language, source, false);
         }
 
-        public Assembly Compile(String language, String source)
+        public AssemblyName Compile(String language, String source)
         {
             return this.Compile(this.Parent.GetLanguage(language), source);
         }
 
-        public Assembly Compile(FileInfo file)
+        public AssemblyName Compile(FileInfo file)
         {
             return this.Compile(file.Extension, file.ReadAllText());
         }
 
-        public Assembly Compile(String file)
+        public AssemblyName Compile(String file)
         {
             return this.Compile(new FileInfo(file));
         }
@@ -271,6 +290,7 @@ namespace XSpect.Reflection
             IDictionary<String, Object> arguments
         )
         {
+            
             this.CheckIfDisposed();
             return language.IsDynamicLanguage
                 ? this.Parent.ScriptRuntime
@@ -280,14 +300,19 @@ namespace XSpect.Reflection
                               .Let(s => arguments.ForEach(p => s.SetVariable(p.Key, p.Value)))
                           )
                       )
-                : (T) this.Compile(language, source, true).GetTypes()
-                      .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static))
-                      .Where(m => m.GetParameters()
-                          .Select(p => p.ParameterType)
-                          .SequenceEqual(typeof(IDictionary<String, Object>).ToEnumerable())
-                      )
-                      .SingleOrPredicatedSingle(m => m.Name == "Begin")
-                      .Invoke(null, Make.Array(arguments));
+                : this.Compile(language, source, true).Do(_ => (T) this.DoCallback(d =>
+                      AppDomain.CurrentDomain.GetAssemblies()
+                          .Single(a => a.GetName() == d.Get<AssemblyName>("r"))
+                          .GetTypes()
+                          .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static))
+                          .Where(m => m.GetParameters()
+                              .Select(p => p.ParameterType)
+                              .SequenceEqual(typeof(IDictionary<String, Object>).ToEnumerable())
+                          )
+                          .SingleOrPredicatedSingle(m => m.Name == "Begin")
+                          .Invoke(null, Make.Array(arguments)),
+                          Make.Dictionary<Object>(r => _)
+                  ));
         }
 
         public Object Execute(
@@ -359,10 +384,10 @@ namespace XSpect.Reflection
             return new DoCallbackHelper<T>(this.ApplicationDomain, callback).DoCallback();
         }
 
-        public T DoCallback<T>(ParameterizedCallback<T> callback, Object argument)
+        public T DoCallback<T>(ParameterizedCallback<T> callback, IDictionary<String, Object> arguments)
         {
             this.CheckIfDisposed();
-            return new DoCallbackHelper<T>(this.ApplicationDomain, callback, argument).DoCallback();
+            return new DoCallbackHelper<T>(this.ApplicationDomain, callback, arguments).DoCallback();
         }
 
         public void DoCallback(Callback callback)
@@ -371,10 +396,10 @@ namespace XSpect.Reflection
             new DoCallbackHelper(this.ApplicationDomain, callback).DoCallback();
         }
 
-        public void DoCallback(ParameterizedCallback callback, Object argument)
+        public void DoCallback(ParameterizedCallback callback, IDictionary<String, Object> arguments)
         {
             this.CheckIfDisposed();
-            new DoCallbackHelper(this.ApplicationDomain, callback, argument).DoCallback();
+            new DoCallbackHelper(this.ApplicationDomain, callback, arguments).DoCallback();
         }
 
         #endregion

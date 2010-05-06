@@ -105,14 +105,8 @@
     <Compile Include="Hooking\ActionHook.cs" />
     <Compile Include="Hooking\FuncHook.cs" />
     <Compile Include="Hooking\Hook.cs" />
-    <Compile Include="Reflection\CodeDomain.CompileHelper.cs">
-        <DependentUpon>CodeDomain.cs</DependentUpon>
-    </Compile>
     <Compile Include="Reflection\CodeDomain.DoCallbackHelper.cs">
-        <DependentUpon>CodeDomain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reflection\CodeDomain.LoadHelper.cs">
-        <DependentUpon>CodeDomain.cs</DependentUpon>
+      <DependentUpon>CodeDomain.cs</DependentUpon>
     </Compile>
     <Compile Include="Reflection\CodeManager.cs" />
     <Compile Include="Reflection\LanguageSetting.cs" />
