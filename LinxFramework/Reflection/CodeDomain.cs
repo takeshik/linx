@@ -76,6 +76,16 @@ namespace XSpect.Reflection
             }
         }
 
+        public AssemblyName GetAssemblyByName(String typeName)
+        {
+            return this.DoCallback(d =>
+                AppDomain.CurrentDomain.GetAssemblies()
+                    .First(a => a.GetType(d.Get<String>("t")) != null)
+                    .GetName(),
+                Make.Dictionary<Object>(t => typeName)
+            );
+        }
+
         public CodeDomain(CodeManager parent, String key, AppDomainSetup info)
         {
             this.Parent = parent;
