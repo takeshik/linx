@@ -43,6 +43,7 @@ namespace XSpect.Configuration
 {
     partial class XmlConfiguration
     {
+        [Serializable()]
         public abstract class Entry
             : Object,
               IEquatable<Entry>
@@ -243,6 +244,7 @@ namespace XSpect.Configuration
             }
         }
 
+        [Serializable()]
         public class Entry<T>
             : Entry
         {

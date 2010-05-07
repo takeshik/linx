@@ -47,6 +47,7 @@ using XSpect.Codecs;
 
 namespace XSpect.Configuration
 {
+    [Serializable()]
     [XmlRoot("configuration", Namespace = "urn:XSpect.Configuration.XmlConfiguration")]
     public partial class XmlConfiguration
         : KeyedCollection<String, XmlConfiguration.Entry>,
