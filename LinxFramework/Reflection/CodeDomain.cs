@@ -62,7 +62,7 @@ namespace XSpect.Reflection
             private set;
         }
 
-        public AppDomain ApplicationDomain
+        public AppDomain AppDomain
         {
             get;
             private set;
@@ -90,7 +90,7 @@ namespace XSpect.Reflection
         {
             this.Parent = parent;
             this.Key = key;
-            this.ApplicationDomain = AppDomain.CreateDomain("CodeMgr." + key, null, info);
+            this.AppDomain = AppDomain.CreateDomain("CodeMgr." + key, null, info);
         }
 
         public CodeDomain(CodeManager parent, String key, IEnumerable<Action<AppDomainSetup>> infoInitializers)
@@ -152,7 +152,7 @@ namespace XSpect.Reflection
         {
             if (!this._disposed)
             {
-                AppDomain.Unload(this.ApplicationDomain);
+                AppDomain.Unload(this.AppDomain);
             }
             this._disposed = true;
         }
@@ -391,25 +391,25 @@ namespace XSpect.Reflection
         public T DoCallback<T>(Callback<T> callback)
         {
             this.CheckIfDisposed();
-            return new DoCallbackHelper<T>(this.ApplicationDomain, callback).DoCallback();
+            return new DoCallbackHelper<T>(this.AppDomain, callback).DoCallback();
         }
 
         public T DoCallback<T>(ParameterizedCallback<T> callback, IDictionary<String, Object> arguments)
         {
             this.CheckIfDisposed();
-            return new DoCallbackHelper<T>(this.ApplicationDomain, callback, arguments).DoCallback();
+            return new DoCallbackHelper<T>(this.AppDomain, callback, arguments).DoCallback();
         }
 
         public void DoCallback(Callback callback)
         {
             this.CheckIfDisposed();
-            new DoCallbackHelper(this.ApplicationDomain, callback).DoCallback();
+            new DoCallbackHelper(this.AppDomain, callback).DoCallback();
         }
 
         public void DoCallback(ParameterizedCallback callback, IDictionary<String, Object> arguments)
         {
             this.CheckIfDisposed();
-            new DoCallbackHelper(this.ApplicationDomain, callback, arguments).DoCallback();
+            new DoCallbackHelper(this.AppDomain, callback, arguments).DoCallback();
         }
 
         #endregion

@@ -260,7 +260,7 @@ namespace XSpect.Reflection
 
         public CodeDomain Clone(String key, String keyCloning)
         {
-            AppDomain domain = this.CodeDomains[keyCloning].ApplicationDomain;
+            AppDomain domain = this.CodeDomains[keyCloning].AppDomain;
             return this.Add(key, domain.BaseDirectory, domain.SetupInformation.PrivateBinPath.Split(';'))
                 .Let(d => domain.GetAssemblies().ForEach(a => d.Load(a.GetName())));
         }
