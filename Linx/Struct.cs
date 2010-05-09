@@ -32,6 +32,7 @@ using Achiral;
 
 namespace XSpect
 {
+    [Serializable()]
     public struct Struct<T1, T2>
         : IEquatable<Struct<T1, T2>>
     {
@@ -93,6 +94,7 @@ namespace XSpect
         }
     }
 
+    [Serializable()]
     public struct Struct<T1, T2, T3>
         : IEquatable<Struct<T1, T2, T3>>
     {
@@ -164,6 +166,7 @@ namespace XSpect
         }
     }
 
+    [Serializable()]
     public struct Struct<T1, T2, T3, T4>
         : IEquatable<Struct<T1, T2, T3, T4>>
     {
@@ -243,8 +246,9 @@ namespace XSpect
         }
     }
 
+    [Serializable()]
     public struct Struct<T1, T2, T3, T4, T5>
-    : IEquatable<Struct<T1, T2, T3, T4, T5>>
+        : IEquatable<Struct<T1, T2, T3, T4, T5>>
     {
         public static Struct<T1, T2, T3, T4, T5> Default
         {
@@ -329,6 +333,7 @@ namespace XSpect
         }
     }
 
+    [Serializable()]
     public struct Struct<T1, T2, T3, T4, T5, T6>
         : IEquatable<Struct<T1, T2, T3, T4, T5, T6>>
     {
@@ -423,6 +428,7 @@ namespace XSpect
         }
     }
 
+    [Serializable()]
     public struct Struct<T1, T2, T3, T4, T5, T6, T7>
         : IEquatable<Struct<T1, T2, T3, T4, T5, T6, T7>>
     {
@@ -525,6 +531,7 @@ namespace XSpect
         }
     }
 
+    [Serializable()]
     public struct Struct<T1, T2, T3, T4, T5, T6, T7, T8>
         : IEquatable<Struct<T1, T2, T3, T4, T5, T6, T7, T8>>
     {

@@ -44,6 +44,7 @@ namespace XSpect.Hooking
     /// <typeparam name="TSucceeded"><see cref="Succeeded"/> フックのデリゲートの型。</typeparam>
     /// <typeparam name="TFailed"><see cref="Failed"/> フックのデリゲートの型。</typeparam>
     public abstract class Hook<TSelf, TMethod, TBeforeAfter, TSucceeded, TFailed>
+        : MarshalByRefObject
     {
         /// <summary>
         /// このフック リストが呼び出すメソッドの <c>this</c> の値を取得します。
