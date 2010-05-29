@@ -56,7 +56,7 @@ namespace XSpect.Extension
 
         public static void AddRange<T>(this ICollection<T> collection, params T[] values)
         {
-            collection.AddRange(values as IEnumerable<T>);
+            collection.AddRange((IEnumerable<T>) values);
         }
     }
 }

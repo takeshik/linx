@@ -114,7 +114,7 @@ namespace XSpect.Net
 
         protected virtual HttpWebRequest CreateRequest(Uri uri, String method)
         {
-            HttpWebRequest request = HttpWebRequest.Create(uri) as HttpWebRequest;
+            HttpWebRequest request = (HttpWebRequest) HttpWebRequest.Create(uri);
             this.RequestInitializer(request);
             request.Method = method;
             return request;
@@ -122,7 +122,7 @@ namespace XSpect.Net
 
         public virtual T Get<T>(Uri uri, Func<HttpWebResponse, T> converter)
         {
-            return converter(this.CreateRequest(uri, "GET").GetResponse() as HttpWebResponse);
+            return converter((HttpWebResponse) this.CreateRequest(uri, "GET").GetResponse());
         }
 
         public Byte[] Get(Uri uri)
@@ -137,10 +137,10 @@ namespace XSpect.Net
 
         public virtual T Post<T>(Uri uri, Byte[] data, Func<HttpWebResponse, T> converter)
         {
-            return converter(this.CreateRequest(uri, "POST")
+            return converter((HttpWebResponse) this.CreateRequest(uri, "POST")
                 .Let(r => r.GetRequestStream().Dispose(s => s.Write(data, 0, data.Length)))
                 .GetResponse()
-            as HttpWebResponse);
+           );
         }
 
         public Byte[] Post(Uri uri, Byte[] data)
@@ -155,7 +155,7 @@ namespace XSpect.Net
 
         public virtual T Put<T>(Uri uri, Func<HttpWebResponse, T> converter)
         {
-            return converter(this.CreateRequest(uri, "PUT").GetResponse() as HttpWebResponse);
+            return converter((HttpWebResponse) this.CreateRequest(uri, "PUT").GetResponse());
         }
 
         public Byte[] Put(Uri uri)
@@ -170,7 +170,7 @@ namespace XSpect.Net
 
         public virtual T Delete<T>(Uri uri, Func<HttpWebResponse, T> converter)
         {
-            return converter(this.CreateRequest(uri, "DELETE").GetResponse() as HttpWebResponse);
+            return converter((HttpWebResponse) this.CreateRequest(uri, "DELETE").GetResponse());
         }
 
         public Byte[] Delete(Uri uri)

@@ -36,7 +36,7 @@ namespace XSpect.Extension
     {
         public static TDelegate GetAsyncDelegate<TDelegate>(this IAsyncResult self)
         {
-            return (TDelegate) (self as AsyncResult).AsyncDelegate;
+            return (TDelegate) ((AsyncResult) self).AsyncDelegate;
         }
     }
 }

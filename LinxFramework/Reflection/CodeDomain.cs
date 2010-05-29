@@ -106,7 +106,7 @@ namespace XSpect.Reflection
         }
 
         public CodeDomain(CodeManager parent, String key, params Action<AppDomainSetup>[] infoInitializers)
-            : this(parent, key, infoInitializers as IEnumerable<Action<AppDomainSetup>>)
+            : this(parent, key, (IEnumerable<Action<AppDomainSetup>>) infoInitializers)
         {
         }
 
@@ -133,7 +133,7 @@ namespace XSpect.Reflection
             IEnumerable<String> privateBinPaths,
             params Action<AppDomainSetup>[] infoInitializers
         )
-            : this(parent, key, applicationBase, privateBinPaths, infoInitializers as IEnumerable<Action<AppDomainSetup>>)
+            : this(parent, key, applicationBase, privateBinPaths, (IEnumerable<Action<AppDomainSetup>>) infoInitializers)
         {
         }
 

@@ -232,13 +232,13 @@ namespace XSpect.Configuration
                 .Concat(this.BaseConfigurations
                     .Where(x => x.ConfigurationFile != null)
                     .Select(config =>
-                        new XElement("base",
+                        (XNode) new XElement("base",
                             new XAttribute(
                                 "path",
                                 new Uri(this.ConfigurationFile.FullName)
                                     .MakeRelativeUri(new Uri(config.ConfigurationFile.FullName))
                             )
-                        ) as XNode
+                        )
                     )
                 )
                 .Concat(this.Select(entry =>
@@ -251,7 +251,7 @@ namespace XSpect.Configuration
                         xvalue = null;
                     }
                     else if (entry is Entry<XmlConfiguration>
-                        && (config = (entry as Entry<XmlConfiguration>).Value).IsExterned)
+                        && (config = ((Entry<XmlConfiguration>) entry).Value).IsExterned)
                     {
                         config.Save();
                         xvalue = new XElement("refer",
@@ -267,13 +267,13 @@ namespace XSpect.Configuration
                         xvalue = entry.UntypedValue.XmlSerialize(entry.Type);
                     }
 
-                    return new XElement("entry",
+                    return (XNode) new XElement("entry",
                         new XAttribute("key", entry.Key),
                         new XAttribute("type", entry.Type.AssemblyQualifiedName),
                         entry.IsNameDefined ? new XComment("NAME: " + entry.Name) : null,
                         entry.IsDescriptionDefined ? new XComment("DESC: " + entry.Description) : null,
                         xvalue
-                    ) as XNode;
+                    );
                 }))
                 .ForEach(xn => xn.WriteTo(writer));
         }
@@ -416,12 +416,12 @@ namespace XSpect.Configuration
 
         public Entry<T> Get<T>(params String[] keys)
         {
-            return this.Get(keys) as Entry<T>;
+            return (Entry<T>) this.Get(keys);
         }
 
         public Entry<T> TryGet<T>(params String[] keys)
         {
-            return this.TryGet(keys) as Entry<T>;
+            return (Entry<T>) this.TryGet(keys);
         }
 
         public Boolean TryGet<T>(String key, out Entry<T> value)
@@ -433,7 +433,7 @@ namespace XSpect.Configuration
 
         public T GetValue<T>(params String[] keys)
         {
-            return (this.Get(keys) as Entry<T>).Value;
+            return ((Entry<T>) this.Get(keys)).Value;
         }
 
         public Boolean TryGetValue<T>(String key, out T value)
@@ -492,12 +492,12 @@ namespace XSpect.Configuration
 
         public Entry<T> Resolve<T>(params String[] keys)
         {
-            return this.Resolve(keys) as Entry<T>;
+            return (Entry<T>) this.Resolve(keys);
         }
 
         public Entry<T> TryResolve<T>(params String[] keys)
         {
-            return this.Resolve(keys) as Entry<T>;
+            return (Entry<T>) this.Resolve(keys);
         }
 
         public Boolean TryResolve<T>(String key, out Entry<T> value)
@@ -509,7 +509,7 @@ namespace XSpect.Configuration
 
         public T ResolveValue<T>(params String[] keys)
         {
-            return (this.Resolve(keys) as Entry<T>).Value;
+            return ((Entry<T>) this.Resolve(keys)).Value;
         }
 
         public Boolean TryResolveValue<T>(String key, out T value)

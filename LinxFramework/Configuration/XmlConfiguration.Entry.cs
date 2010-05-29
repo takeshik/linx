@@ -169,7 +169,7 @@ namespace XSpect.Configuration
 
             public override Boolean Equals(Object obj)
             {
-                return obj is Entry && this.Equals(obj as Entry);
+                return obj is Entry && this.Equals((Entry) obj);
             }
 
             public override Int32 GetHashCode()
@@ -209,10 +209,10 @@ namespace XSpect.Configuration
 
             public static Entry Create(XmlConfiguration parent, Type type, String key, Object value, String name, String description)
             {
-                Entry entry = _entryType
+                Entry entry = (Entry) _entryType
                     .MakeGenericType(type)
                     .GetConstructor(Make.Array(typeof(XmlConfiguration)))
-                    .Invoke(Make.Array(parent)) as Entry;
+                    .Invoke(Make.Array(parent));
                 entry.Key = key;
                 entry.UntypedValue = value;
                 entry.Name = name;
@@ -222,10 +222,10 @@ namespace XSpect.Configuration
 
             public static Entry Create(XmlConfiguration parent, Type type, String key, String name, String description)
             {
-                Entry entry = _entryType
+                Entry entry = (Entry) _entryType
                     .MakeGenericType(type)
                     .GetConstructor(Make.Array(typeof(XmlConfiguration)))
-                    .Invoke(Make.Array(parent)) as Entry;
+                    .Invoke(Make.Array(parent));
                 entry.Key = key;
                 entry.IsValueDefined = false;
                 entry.Name = name;

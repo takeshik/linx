@@ -292,24 +292,6 @@ namespace XSpect.Extension
             return objects.All(self.Equals);
         }
 
-        public static TResult MemberOf<TResult>(this Object self, String name)
-        {
-            MemberInfo member = self.GetType()
-                .GetMember(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .Single();
-            switch (member.MemberType)
-            {
-                case MemberTypes.Field:
-                    return (TResult) (member as FieldInfo).GetValue(self);
-                case MemberTypes.Property:
-                    return (TResult) (member as PropertyInfo).GetValue(self, null);
-                case MemberTypes.Method:
-                    return (TResult) ((Object) (member as MethodInfo).CreateDelegateFromType(typeof(TResult), self));
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-
         public static TReturn Walk<TReturn, TParam>(this TReturn origin, Func<TReturn, TParam, TReturn> walker, IEnumerable<TParam> parameters)
         {
             if (parameters.Any())
@@ -324,7 +306,7 @@ namespace XSpect.Extension
 
         public static TReturn Walk<TReturn, TParam>(this TReturn origin, Func<TReturn, TParam, TReturn> walker, params TParam[] parameters)
         {
-            return origin.Walk(walker, parameters as IEnumerable<TParam>);
+            return origin.Walk(walker, (IEnumerable<TParam>) parameters);
         }
 
         public static IEnumerable<TSource> Walk<TSource>(this TSource origin, Func<TSource, TSource> walker, Func<TSource, Boolean> terminator)
