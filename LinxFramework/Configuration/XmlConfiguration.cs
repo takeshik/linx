@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
@@ -42,6 +43,7 @@ using System.Xml.Serialization;
 using Achiral;
 using Achiral.Extension;
 using XSpect;
+using XSpect.Collections;
 using XSpect.Extension;
 using XSpect.Codecs;
 
@@ -50,7 +52,7 @@ namespace XSpect.Configuration
     [Serializable()]
     [XmlRoot("configuration", Namespace = "urn:XSpect.Configuration.XmlConfiguration")]
     public partial class XmlConfiguration
-        : KeyedCollection<String, XmlConfiguration.Entry>,
+        : HybridDictionary<String, XmlConfiguration.Entry>,
           IXmlSerializable
     {
         public const Int32 Version = 2;
@@ -93,6 +95,7 @@ namespace XSpect.Configuration
         }
 
         public XmlConfiguration()
+            : base((i, v) => v.Key)
         {
             this.BaseConfigurations = new List<XmlConfiguration>();
         }
@@ -123,30 +126,27 @@ namespace XSpect.Configuration
             return Load(new FileInfo(path));
         }
 
-        protected override String GetKeyForItem(Entry item)
+        protected override void InsertItems(IEnumerable<Int32> indexes, IEnumerable<String> keys, IEnumerable<Entry> values, Boolean ensureKeysCompliant)
         {
-            return item.Key;
-        }
-
-        protected override void InsertItem(Int32 index, Entry item)
-        {
-            (item as Entry<XmlConfiguration>).Null(entry => entry.Value.BaseConfigurations.AddRange(
-                this.BaseConfigurations
-                    .Select(c => c.TryResolve<XmlConfiguration>(entry.Key))
-                    .Where(e => e != null)
-                    .Select(e => e.Value)
-            ));
-            base.InsertItem(index, item);
+            values
+                .OfType<Entry<XmlConfiguration>>()
+                .ForEach(entry => entry.Value.BaseConfigurations.AddRange(
+                    this.BaseConfigurations
+                        .Select(c => c.TryResolve<XmlConfiguration>(entry.Key))
+                        .Where(e => e != null)
+                        .Select(e => e.Value)
+                ));
+            base.InsertItems(indexes, keys, values, ensureKeysCompliant);
         }
 
         #region Implementation of IXmlSerializable
 
-        public XmlSchema GetSchema()
+        public new XmlSchema GetSchema()
         {
             return null;
         }
 
-        public void ReadXml(XmlReader reader)
+        public new void ReadXml(XmlReader reader)
         {
             // HACK: Measure for XML Serializing, calls .ctor(), so ConfigurationFile is null.
             if (this.ConfigurationFile == null && !reader.BaseURI.IsNullOrEmpty())
@@ -218,7 +218,7 @@ namespace XSpect.Configuration
             });
         }
 
-        public void WriteXml(XmlWriter writer)
+        public new void WriteXml(XmlWriter writer)
         {
             new XNode[]
             {
@@ -241,7 +241,7 @@ namespace XSpect.Configuration
                         )
                     )
                 )
-                .Concat(this.Select(entry =>
+                .Concat(this.Values.Select(entry =>
                 {
                     XmlConfiguration config;
                     XElement xvalue;
@@ -314,7 +314,7 @@ namespace XSpect.Configuration
 
         public Boolean Update<T>(String key, T value, String name, String description)
         {
-            if (this.Contains(key))
+            if (this.ContainsKey(key))
             {
                 Entry<T> entry = this.Get<T>(key);
                 entry.Value = value;
@@ -331,7 +331,7 @@ namespace XSpect.Configuration
 
         public Boolean Update<T>(String key, String name, String description)
         {
-            if (this.Contains(key))
+            if (this.ContainsKey(key))
             {
                 Entry<T> entry = this.Get<T>(key);
                 entry.IsValueDefined = false;
@@ -348,7 +348,7 @@ namespace XSpect.Configuration
 
         public Boolean Update<T>(String key, T value)
         {
-            if (this.Contains(key))
+            if (this.ContainsKey(key))
             {
                 this.Get<T>(key).Value = value;
                 return false;
@@ -362,7 +362,7 @@ namespace XSpect.Configuration
 
         public Boolean Update<T>(String key)
         {
-            if (this.Contains(key))
+            if (this.ContainsKey(key))
             {
                 this.Get<T>(key).IsValueDefined = false;
                 return false;
@@ -376,10 +376,10 @@ namespace XSpect.Configuration
 
         public Boolean Update(Entry entry)
         {
-            Boolean contained = this.Contains(entry);
+            Boolean contained = this.ContainsValue(entry);
             if (contained)
             {
-                this.Remove(entry);
+                this.RemoveValue(entry);
             }
             this.Add(entry);
             return contained;
@@ -387,7 +387,7 @@ namespace XSpect.Configuration
 
         public Boolean Exists(String key)
         {
-            return this.Hierarchy.Any(c => c.Contains(key));
+            return this.Hierarchy.Any(c => c.ContainsKey(key));
         }
 
         public Entry Get(String key)
@@ -404,12 +404,12 @@ namespace XSpect.Configuration
         {
             XmlConfiguration config = this.Walk((c, k) => c.ResolveChild(k), keys.Take(keys.Count() - 1));
             String key = keys.Last();
-            return config.Contains(key) ? config.Get(key) : null;
+            return config.ContainsKey(key) ? config.Get(key) : null;
         }
 
         public Boolean TryGet(String key, out Entry value)
         {
-            return this.Contains(key)
+            return this.ContainsKey(key)
                 ? (value = this.Get(key)).True()
                 : (value = null).False();
         }
@@ -426,7 +426,7 @@ namespace XSpect.Configuration
 
         public Boolean TryGet<T>(String key, out Entry<T> value)
         {
-            return this.Contains(key)
+            return this.ContainsKey(key)
                 ? (value = this.Get<T>(key)).True()
                 : (value = null).False();
         }
@@ -438,7 +438,7 @@ namespace XSpect.Configuration
 
         public Boolean TryGetValue<T>(String key, out T value)
         {
-            return this.Contains(key)
+            return this.ContainsKey(key)
                 ? (value = this.GetValue<T>(key)).True()
                 : (value = default(T)).False();
         }
@@ -452,7 +452,7 @@ namespace XSpect.Configuration
         {
             foreach (XmlConfiguration config in this.Hierarchy)
             {
-                if (config.Contains(key))
+                if (config.ContainsKey(key))
                 {
                     return config.Get(key);
                 }
@@ -468,7 +468,7 @@ namespace XSpect.Configuration
             )
             {
                 String key = keys.Last();
-                if (config.Contains(key))
+                if (config.ContainsKey(key))
                 {
                     return config.Get(key);
                 }
@@ -536,7 +536,7 @@ namespace XSpect.Configuration
 
         public IEnumerable<Entry<T>> OfEntryType<T>()
         {
-            return this.OfType<Entry<T>>();
+            return this.Values.OfType<Entry<T>>();
         }
 
         public IEnumerable<T> OfValueType<T>()
@@ -546,7 +546,7 @@ namespace XSpect.Configuration
 
         public IDictionary<String, Object> ToDictionary()
         {
-            return this.ToDictionary(e => e.Key, e => e.UntypedValue);
+            return this.Values.ToDictionary(e => e.Key, e => e.UntypedValue);
         }
 
         public IDictionary<String, T> ToDictionary<T>()
@@ -580,7 +580,15 @@ namespace XSpect.Configuration
             try
             {
                 new MemoryStream().Dispose(stream =>
-                    XmlWriter.Create(stream).Dispose(writer =>
+                    XmlWriter.Create(
+                        stream, new XmlWriterSettings()
+                        {
+                            Encoding = Encoding.UTF8,
+                            Indent = true,
+                            IndentChars = new String(' ', 4),
+                            OmitXmlDeclaration = false,
+                        }
+                    ).Dispose(writer =>
                     {
                         new XmlSerializer(typeof(XmlConfiguration)).Serialize(writer, this);
                         stream.Seek(0, SeekOrigin.Begin);

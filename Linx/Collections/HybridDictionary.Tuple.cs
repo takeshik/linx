@@ -34,6 +34,7 @@ namespace XSpect.Collections
 {
     partial class HybridDictionary<TKey, TValue>
     {
+        [Serializable()]
         public struct Tuple
         {
             public Int32 Index

@@ -39,6 +39,7 @@ namespace XSpect.Collections
 {
     partial class HybridDictionary<TKey, TValue>
     {
+        [Serializable()]
         public sealed class ValueList
             : IList<TValue>
         {
