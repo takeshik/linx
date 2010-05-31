@@ -69,6 +69,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, ex));
+                throw;
             }
             finally
             {
@@ -113,6 +114,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, ex));
+                throw;
             }
             finally
             {
@@ -159,6 +161,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, ex));
+                throw;
             }
             finally
             {
@@ -207,6 +210,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, ex));
+                throw;
             }
             finally
             {
@@ -257,6 +261,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, ex));
+                throw;
             }
             finally
             {
@@ -309,6 +314,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, ex));
+                throw;
             }
             finally
             {
@@ -363,6 +369,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, ex));
+                throw;
             }
             finally
             {
@@ -419,6 +426,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, ex));
+                throw;
             }
             finally
             {
@@ -477,6 +485,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ex));
+                throw;
             }
             finally
             {
@@ -537,6 +546,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, ex));
+                throw;
             }
             finally
             {
@@ -599,6 +609,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, ex));
+                throw;
             }
             finally
             {
@@ -663,6 +674,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, ex));
+                throw;
             }
             finally
             {
@@ -729,6 +741,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, ex));
+                throw;
             }
             finally
             {
@@ -797,6 +810,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, ex));
+                throw;
             }
             finally
             {
@@ -867,6 +881,7 @@ namespace XSpect.Hooking
             catch (Exception ex)
             {
                 this.Failed.ForEach(f => f(this.Self, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, ex));
+                throw;
             }
             finally
             {
