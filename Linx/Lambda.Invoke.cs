@@ -66,11 +66,6 @@ namespace XSpect
             action.Invoke(args.Item1, args.Item2, args.Item3, args.Item4, args.Item5, args.Item6, args.Item7);
         }
 
-        public static void Invoke<T1, T2, T3, T4, T5, T6, T7, T8>(this Action<T1, T2, T3, T4, T5, T6, T7, T8> action, Tuple<T1, T2, T3, T4, T5, T6, T7, T8> args)
-        {
-            action.Invoke(args.Item1, args.Item2, args.Item3, args.Item4, args.Item5, args.Item6, args.Item7, args.Item8);
-        }
-
         public static TReturn Invoke<T1, T2, TReturn>(this Func<T1, T2, TReturn> func, Tuple<T1, T2> args)
         {
             return func.Invoke(args.Item1, args.Item2);
@@ -99,11 +94,6 @@ namespace XSpect
         public static TReturn Invoke<T1, T2, T3, T4, T5, T6, T7, TReturn>(this Func<T1, T2, T3, T4, T5, T6, T7, TReturn> func, Tuple<T1, T2, T3, T4, T5, T6, T7> args)
         {
             return func.Invoke(args.Item1, args.Item2, args.Item3, args.Item4, args.Item5, args.Item6, args.Item7);
-        }
-
-        public static TReturn Invoke<T1, T2, T3, T4, T5, T6, T7, T8, TReturn>(this Func<T1, T2, T3, T4, T5, T6, T7, T8, TReturn> func, Tuple<T1, T2, T3, T4, T5, T6, T7, T8> args)
-        {
-            return func.Invoke(args.Item1, args.Item2, args.Item3, args.Item4, args.Item5, args.Item6, args.Item7, args.Item8);
         }
     }
 }

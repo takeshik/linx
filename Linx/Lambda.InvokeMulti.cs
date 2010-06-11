@@ -27,7 +27,7 @@
  * IN THE SOFTWARE.
  */
 
-using Achiral;
+using System;
 
 namespace XSpect
 {
@@ -94,7 +94,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             action(out value1, out value2);
-            return Make.Tuple(value1, value2);
+            return Tuple.Create(value1, value2);
         }
 
         public static Tuple<TOut1, TOut2> InvokeMulti<T, TOut1, TOut2>(this ActionOut2<T, TOut1, TOut2> action, T arg)
@@ -102,7 +102,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             action(arg, out value1, out value2);
-            return Make.Tuple(value1, value2);
+            return Tuple.Create(value1, value2);
         }
 
         public static Tuple<TOut1, TOut2> InvokeMulti<T1, T2, TOut1, TOut2>(this ActionOut2<T1, T2, TOut1, TOut2> action, T1 arg1, T2 arg2)
@@ -110,7 +110,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             action(arg1, arg2, out value1, out value2);
-            return Make.Tuple(value1, value2);
+            return Tuple.Create(value1, value2);
         }
 
         public static Tuple<TOut1, TOut2> InvokeMulti<T1, T2, T3, TOut1, TOut2>(this ActionOut2<T1, T2, T3, TOut1, TOut2> action, T1 arg1, T2 arg2, T3 arg3)
@@ -118,7 +118,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             action(arg1, arg2, arg3, out value1, out value2);
-            return Make.Tuple(value1, value2);
+            return Tuple.Create(value1, value2);
         }
 
         public static Tuple<TOut1, TOut2> InvokeMulti<T1, T2, T3, T4, TOut1, TOut2>(this ActionOut2<T1, T2, T3, T4, TOut1, TOut2> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
@@ -126,7 +126,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             action(arg1, arg2, arg3, arg4, out value1, out value2);
-            return Make.Tuple(value1, value2);
+            return Tuple.Create(value1, value2);
         }
 
         public static Tuple<TOut1, TOut2> InvokeMulti<T1, T2, T3, T4, T5, TOut1, TOut2>(this ActionOut2<T1, T2, T3, T4, T5, TOut1, TOut2> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
@@ -134,7 +134,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             action(arg1, arg2, arg3, arg4, arg5, out value1, out value2);
-            return Make.Tuple(value1, value2);
+            return Tuple.Create(value1, value2);
         }
 
         public static Tuple<TOut1, TOut2> InvokeMulti<T1, T2, T3, T4, T5, T6, TOut1, TOut2>(this ActionOut2<T1, T2, T3, T4, T5, T6, TOut1, TOut2> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
@@ -142,7 +142,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             action(arg1, arg2, arg3, arg4, arg5, arg6, out value1, out value2);
-            return Make.Tuple(value1, value2);
+            return Tuple.Create(value1, value2);
         }
 
         public static Tuple<TOut1, TOut2, TOut3> InvokeMulti<TOut1, TOut2, TOut3>(this ActionOut3<TOut1, TOut2, TOut3> action)
@@ -151,7 +151,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             action(out value1, out value2, out value3);
-            return Make.Tuple(value1, value2, value3);
+            return Tuple.Create(value1, value2, value3);
         }
 
         public static Tuple<TOut1, TOut2, TOut3> InvokeMulti<T, TOut1, TOut2, TOut3>(this ActionOut3<T, TOut1, TOut2, TOut3> action, T arg)
@@ -160,7 +160,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             action(arg, out value1, out value2, out value3);
-            return Make.Tuple(value1, value2, value3);
+            return Tuple.Create(value1, value2, value3);
         }
 
         public static Tuple<TOut1, TOut2, TOut3> InvokeMulti<T1, T2, TOut1, TOut2, TOut3>(this ActionOut3<T1, T2, TOut1, TOut2, TOut3> action, T1 arg1, T2 arg2)
@@ -169,7 +169,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             action(arg1, arg2, out value1, out value2, out value3);
-            return Make.Tuple(value1, value2, value3);
+            return Tuple.Create(value1, value2, value3);
         }
 
         public static Tuple<TOut1, TOut2, TOut3> InvokeMulti<T1, T2, T3, TOut1, TOut2, TOut3>(this ActionOut3<T1, T2, T3, TOut1, TOut2, TOut3> action, T1 arg1, T2 arg2, T3 arg3)
@@ -178,7 +178,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             action(arg1, arg2, arg3, out value1, out value2, out value3);
-            return Make.Tuple(value1, value2, value3);
+            return Tuple.Create(value1, value2, value3);
         }
 
         public static Tuple<TOut1, TOut2, TOut3> InvokeMulti<T1, T2, T3, T4, TOut1, TOut2, TOut3>(this ActionOut3<T1, T2, T3, T4, TOut1, TOut2, TOut3> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
@@ -187,7 +187,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             action(arg1, arg2, arg3, arg4, out value1, out value2, out value3);
-            return Make.Tuple(value1, value2, value3);
+            return Tuple.Create(value1, value2, value3);
         }
 
         public static Tuple<TOut1, TOut2, TOut3> InvokeMulti<T1, T2, T3, T4, T5, TOut1, TOut2, TOut3>(this ActionOut3<T1, T2, T3, T4, T5, TOut1, TOut2, TOut3> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
@@ -196,7 +196,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             action(arg1, arg2, arg3, arg4, arg5, out value1, out value2, out value3);
-            return Make.Tuple(value1, value2, value3);
+            return Tuple.Create(value1, value2, value3);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4> InvokeMulti<TOut1, TOut2, TOut3, TOut4>(this ActionOut4<TOut1, TOut2, TOut3, TOut4> action)
@@ -206,7 +206,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             action(out value1, out value2, out value3, out value4);
-            return Make.Tuple(value1, value2, value3, value4);
+            return Tuple.Create(value1, value2, value3, value4);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4>(this ActionOut4<T, TOut1, TOut2, TOut3, TOut4> action, T arg)
@@ -216,7 +216,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             action(arg, out value1, out value2, out value3, out value4);
-            return Make.Tuple(value1, value2, value3, value4);
+            return Tuple.Create(value1, value2, value3, value4);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4> InvokeMulti<T1, T2, TOut1, TOut2, TOut3, TOut4>(this ActionOut4<T1, T2, TOut1, TOut2, TOut3, TOut4> action, T1 arg1, T2 arg2)
@@ -226,7 +226,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             action(arg1, arg2, out value1, out value2, out value3, out value4);
-            return Make.Tuple(value1, value2, value3, value4);
+            return Tuple.Create(value1, value2, value3, value4);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4> InvokeMulti<T1, T2, T3, TOut1, TOut2, TOut3, TOut4>(this ActionOut4<T1, T2, T3, TOut1, TOut2, TOut3, TOut4> action, T1 arg1, T2 arg2, T3 arg3)
@@ -236,7 +236,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             action(arg1, arg2, arg3, out value1, out value2, out value3, out value4);
-            return Make.Tuple(value1, value2, value3, value4);
+            return Tuple.Create(value1, value2, value3, value4);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4> InvokeMulti<T1, T2, T3, T4, TOut1, TOut2, TOut3, TOut4>(this ActionOut4<T1, T2, T3, T4, TOut1, TOut2, TOut3, TOut4> action, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
@@ -246,7 +246,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             action(arg1, arg2, arg3, arg4, out value1, out value2, out value3, out value4);
-            return Make.Tuple(value1, value2, value3, value4);
+            return Tuple.Create(value1, value2, value3, value4);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TOut5>(this ActionOut5<TOut1, TOut2, TOut3, TOut4, TOut5> action)
@@ -257,7 +257,7 @@ namespace XSpect
             TOut4 value4;
             TOut5 value5;
             action(out value1, out value2, out value3, out value4, out value5);
-            return Make.Tuple(value1, value2, value3, value4, value5);
+            return Tuple.Create(value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4, TOut5>(this ActionOut5<T, TOut1, TOut2, TOut3, TOut4, TOut5> action, T arg)
@@ -268,7 +268,7 @@ namespace XSpect
             TOut4 value4;
             TOut5 value5;
             action(arg, out value1, out value2, out value3, out value4, out value5);
-            return Make.Tuple(value1, value2, value3, value4, value5);
+            return Tuple.Create(value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5>(this ActionOut5<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5> action, T1 arg1, T2 arg2)
@@ -279,7 +279,7 @@ namespace XSpect
             TOut4 value4;
             TOut5 value5;
             action(arg1, arg2, out value1, out value2, out value3, out value4, out value5);
-            return Make.Tuple(value1, value2, value3, value4, value5);
+            return Tuple.Create(value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<T1, T2, T3, TOut1, TOut2, TOut3, TOut4, TOut5>(this ActionOut5<T1, T2, T3, TOut1, TOut2, TOut3, TOut4, TOut5> action, T1 arg1, T2 arg2, T3 arg3)
@@ -290,7 +290,7 @@ namespace XSpect
             TOut4 value4;
             TOut5 value5;
             action(arg1, arg2, arg3, out value1, out value2, out value3, out value4, out value5);
-            return Make.Tuple(value1, value2, value3, value4, value5);
+            return Tuple.Create(value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6>(this ActionOut6<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> action)
@@ -302,7 +302,7 @@ namespace XSpect
             TOut5 value5;
             TOut6 value6;
             action(out value1, out value2, out value3, out value4, out value5, out value6);
-            return Make.Tuple(value1, value2, value3, value4, value5, value6);
+            return Tuple.Create(value1, value2, value3, value4, value5, value6);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6>(this ActionOut6<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> action, T arg)
@@ -314,7 +314,7 @@ namespace XSpect
             TOut5 value5;
             TOut6 value6;
             action(arg, out value1, out value2, out value3, out value4, out value5, out value6);
-            return Make.Tuple(value1, value2, value3, value4, value5, value6);
+            return Tuple.Create(value1, value2, value3, value4, value5, value6);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> InvokeMulti<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6>(this ActionOut6<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> action, T1 arg1, T2 arg2)
@@ -326,7 +326,7 @@ namespace XSpect
             TOut5 value5;
             TOut6 value6;
             action(arg1, arg2, out value1, out value2, out value3, out value4, out value5, out value6);
-            return Make.Tuple(value1, value2, value3, value4, value5, value6);
+            return Tuple.Create(value1, value2, value3, value4, value5, value6);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7>(this ActionOut7<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7> action)
@@ -339,7 +339,7 @@ namespace XSpect
             TOut6 value6;
             TOut7 value7;
             action(out value1, out value2, out value3, out value4, out value5, out value6, out value7);
-            return Make.Tuple(value1, value2, value3, value4, value5, value6, value7);
+            return Tuple.Create(value1, value2, value3, value4, value5, value6, value7);
         }
 
         public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7>(this ActionOut7<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7> action, T arg)
@@ -352,118 +352,104 @@ namespace XSpect
             TOut6 value6;
             TOut7 value7;
             action(arg, out value1, out value2, out value3, out value4, out value5, out value6, out value7);
-            return Make.Tuple(value1, value2, value3, value4, value5, value6, value7);
-        }
-
-        public static Tuple<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TOut8> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TOut8>(this ActionOut8<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TOut8> action)
-        {
-            TOut1 value1;
-            TOut2 value2;
-            TOut3 value3;
-            TOut4 value4;
-            TOut5 value5;
-            TOut6 value6;
-            TOut7 value7;
-            TOut8 value8;
-            action(out value1, out value2, out value3, out value4, out value5, out value6, out value7, out value8);
-            return Make.Tuple(value1, value2, value3, value4, value5, value6, value7, value8);
+            return Tuple.Create(value1, value2, value3, value4, value5, value6, value7);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<TOut, TReturn>(this FuncOut1<TOut, TReturn> func)
         {
             TOut value;
-            return Make.Tuple(func(out value), value);
+            return Tuple.Create(func(out value), value);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<T, TOut, TReturn>(this FuncOut1<T, TOut, TReturn> func, T arg)
         {
             TOut value;
-            return Make.Tuple(func(arg, out value), value);
+            return Tuple.Create(func(arg, out value), value);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<T1, T2, TOut, TReturn>(this FuncOut1<T1, T2, TOut, TReturn> func, T1 arg1, T2 arg2)
         {
             TOut value;
-            return Make.Tuple(func(arg1, arg2, out value), value);
+            return Tuple.Create(func(arg1, arg2, out value), value);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<T1, T2, T3, TOut, TReturn>(this FuncOut1<T1, T2, T3, TOut, TReturn> func, T1 arg1, T2 arg2, T3 arg3)
         {
             TOut value;
-            return Make.Tuple(func(arg1, arg2, arg3, out value), value);
+            return Tuple.Create(func(arg1, arg2, arg3, out value), value);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<T1, T2, T3, T4, TOut, TReturn>(this FuncOut1<T1, T2, T3, T4, TOut, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             TOut value;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, out value), value);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, out value), value);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<T1, T2, T3, T4, T5, TOut, TReturn>(this FuncOut1<T1, T2, T3, T4, T5, TOut, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             TOut value;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, arg5, out value), value);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, arg5, out value), value);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<T1, T2, T3, T4, T5, T6, TOut, TReturn>(this FuncOut1<T1, T2, T3, T4, T5, T6, TOut, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             TOut value;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, arg5, arg6, out value), value);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, arg5, arg6, out value), value);
         }
 
         public static Tuple<TReturn, TOut> InvokeMulti<T1, T2, T3, T4, T5, T6, T7, TOut, TReturn>(this FuncOut1<T1, T2, T3, T4, T5, T6, T7, TOut, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
             TOut value;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, out value), value);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, arg5, arg6, arg7, out value), value);
         }
 
         public static Tuple<TReturn, TOut1, TOut2> InvokeMulti<TOut1, TOut2, TReturn>(this FuncOut2<TOut1, TOut2, TReturn> func)
         {
             TOut1 value1;
             TOut2 value2;
-            return Make.Tuple(func(out value1, out value2), value1, value2);
+            return Tuple.Create(func(out value1, out value2), value1, value2);
         }
 
         public static Tuple<TReturn, TOut1, TOut2> InvokeMulti<T, TOut1, TOut2, TReturn>(this FuncOut2<T, TOut1, TOut2, TReturn> func, T arg)
         {
             TOut1 value1;
             TOut2 value2;
-            return Make.Tuple(func(arg, out value1, out value2), value1, value2);
+            return Tuple.Create(func(arg, out value1, out value2), value1, value2);
         }
 
         public static Tuple<TReturn, TOut1, TOut2> InvokeMulti<T1, T2, TOut1, TOut2, TReturn>(this FuncOut2<T1, T2, TOut1, TOut2, TReturn> func, T1 arg1, T2 arg2)
         {
             TOut1 value1;
             TOut2 value2;
-            return Make.Tuple(func(arg1, arg2, out value1, out value2), value1, value2);
+            return Tuple.Create(func(arg1, arg2, out value1, out value2), value1, value2);
         }
 
         public static Tuple<TReturn, TOut1, TOut2> InvokeMulti<T1, T2, T3, TOut1, TOut2, TReturn>(this FuncOut2<T1, T2, T3, TOut1, TOut2, TReturn> func, T1 arg1, T2 arg2, T3 arg3)
         {
             TOut1 value1;
             TOut2 value2;
-            return Make.Tuple(func(arg1, arg2, arg3, out value1, out value2), value1, value2);
+            return Tuple.Create(func(arg1, arg2, arg3, out value1, out value2), value1, value2);
         }
 
         public static Tuple<TReturn, TOut1, TOut2> InvokeMulti<T1, T2, T3, T4, TOut1, TOut2, TReturn>(this FuncOut2<T1, T2, T3, T4, TOut1, TOut2, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
             TOut1 value1;
             TOut2 value2;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, out value1, out value2), value1, value2);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, out value1, out value2), value1, value2);
         }
 
         public static Tuple<TReturn, TOut1, TOut2> InvokeMulti<T1, T2, T3, T4, T5, TOut1, TOut2, TReturn>(this FuncOut2<T1, T2, T3, T4, T5, TOut1, TOut2, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
             TOut1 value1;
             TOut2 value2;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, arg5, out value1, out value2), value1, value2);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, arg5, out value1, out value2), value1, value2);
         }
 
         public static Tuple<TReturn, TOut1, TOut2> InvokeMulti<T1, T2, T3, T4, T5, T6, TOut1, TOut2, TReturn>(this FuncOut2<T1, T2, T3, T4, T5, T6, TOut1, TOut2, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
             TOut1 value1;
             TOut2 value2;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, arg5, arg6, out value1, out value2), value1, value2);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, arg5, arg6, out value1, out value2), value1, value2);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3> InvokeMulti<TOut1, TOut2, TOut3, TReturn>(this FuncOut3<TOut1, TOut2, TOut3, TReturn> func)
@@ -471,7 +457,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             TOut3 value3;
-            return Make.Tuple(func(out value1, out value2, out value3), value1, value2, value3);
+            return Tuple.Create(func(out value1, out value2, out value3), value1, value2, value3);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3> InvokeMulti<T, TOut1, TOut2, TOut3, TReturn>(this FuncOut3<T, TOut1, TOut2, TOut3, TReturn> func, T arg)
@@ -479,7 +465,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             TOut3 value3;
-            return Make.Tuple(func(arg, out value1, out value2, out value3), value1, value2, value3);
+            return Tuple.Create(func(arg, out value1, out value2, out value3), value1, value2, value3);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3> InvokeMulti<T1, T2, TOut1, TOut2, TOut3, TReturn>(this FuncOut3<T1, T2, TOut1, TOut2, TOut3, TReturn> func, T1 arg1, T2 arg2)
@@ -487,7 +473,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             TOut3 value3;
-            return Make.Tuple(func(arg1, arg2, out value1, out value2, out value3), value1, value2, value3);
+            return Tuple.Create(func(arg1, arg2, out value1, out value2, out value3), value1, value2, value3);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3> InvokeMulti<T1, T2, T3, TOut1, TOut2, TOut3, TReturn>(this FuncOut3<T1, T2, T3, TOut1, TOut2, TOut3, TReturn> func, T1 arg1, T2 arg2, T3 arg3)
@@ -495,7 +481,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             TOut3 value3;
-            return Make.Tuple(func(arg1, arg2, arg3, out value1, out value2, out value3), value1, value2, value3);
+            return Tuple.Create(func(arg1, arg2, arg3, out value1, out value2, out value3), value1, value2, value3);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3> InvokeMulti<T1, T2, T3, T4, TOut1, TOut2, TOut3, TReturn>(this FuncOut3<T1, T2, T3, T4, TOut1, TOut2, TOut3, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
@@ -503,7 +489,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             TOut3 value3;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, out value1, out value2, out value3), value1, value2, value3);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, out value1, out value2, out value3), value1, value2, value3);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3> InvokeMulti<T1, T2, T3, T4, T5, TOut1, TOut2, TOut3, TReturn>(this FuncOut3<T1, T2, T3, T4, T5, TOut1, TOut2, TOut3, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
@@ -511,7 +497,7 @@ namespace XSpect
             TOut1 value1;
             TOut2 value2;
             TOut3 value3;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, arg5, out value1, out value2, out value3), value1, value2, value3);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, arg5, out value1, out value2, out value3), value1, value2, value3);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TReturn>(this FuncOut4<TOut1, TOut2, TOut3, TOut4, TReturn> func)
@@ -520,7 +506,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             TOut4 value4;
-            return Make.Tuple(func(out value1, out value2, out value3, out value4), value1, value2, value3, value4);
+            return Tuple.Create(func(out value1, out value2, out value3, out value4), value1, value2, value3, value4);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4, TReturn>(this FuncOut4<T, TOut1, TOut2, TOut3, TOut4, TReturn> func, T arg)
@@ -529,7 +515,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             TOut4 value4;
-            return Make.Tuple(func(arg, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
+            return Tuple.Create(func(arg, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4> InvokeMulti<T1, T2, TOut1, TOut2, TOut3, TOut4, TReturn>(this FuncOut4<T1, T2, TOut1, TOut2, TOut3, TOut4, TReturn> func, T1 arg1, T2 arg2)
@@ -538,7 +524,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             TOut4 value4;
-            return Make.Tuple(func(arg1, arg2, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
+            return Tuple.Create(func(arg1, arg2, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4> InvokeMulti<T1, T2, T3, TOut1, TOut2, TOut3, TOut4, TReturn>(this FuncOut4<T1, T2, T3, TOut1, TOut2, TOut3, TOut4, TReturn> func, T1 arg1, T2 arg2, T3 arg3)
@@ -547,7 +533,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             TOut4 value4;
-            return Make.Tuple(func(arg1, arg2, arg3, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
+            return Tuple.Create(func(arg1, arg2, arg3, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4> InvokeMulti<T1, T2, T3, T4, TOut1, TOut2, TOut3, TOut4, TReturn>(this FuncOut4<T1, T2, T3, T4, TOut1, TOut2, TOut3, TOut4, TReturn> func, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
@@ -556,7 +542,7 @@ namespace XSpect
             TOut2 value2;
             TOut3 value3;
             TOut4 value4;
-            return Make.Tuple(func(arg1, arg2, arg3, arg4, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
+            return Tuple.Create(func(arg1, arg2, arg3, arg4, out value1, out value2, out value3, out value4), value1, value2, value3, value4);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TOut5, TReturn>(this FuncOut5<TOut1, TOut2, TOut3, TOut4, TOut5, TReturn> func)
@@ -566,7 +552,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             TOut5 value5;
-            return Make.Tuple(func(out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
+            return Tuple.Create(func(out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4, TOut5, TReturn>(this FuncOut5<T, TOut1, TOut2, TOut3, TOut4, TOut5, TReturn> func, T arg)
@@ -576,7 +562,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             TOut5 value5;
-            return Make.Tuple(func(arg, out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
+            return Tuple.Create(func(arg, out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5, TReturn>(this FuncOut5<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5, TReturn> func, T1 arg1, T2 arg2)
@@ -586,7 +572,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             TOut5 value5;
-            return Make.Tuple(func(arg1, arg2, out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
+            return Tuple.Create(func(arg1, arg2, out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5> InvokeMulti<T1, T2, T3, TOut1, TOut2, TOut3, TOut4, TOut5, TReturn>(this FuncOut5<T1, T2, T3, TOut1, TOut2, TOut3, TOut4, TOut5, TReturn> func, T1 arg1, T2 arg2, T3 arg3)
@@ -596,7 +582,7 @@ namespace XSpect
             TOut3 value3;
             TOut4 value4;
             TOut5 value5;
-            return Make.Tuple(func(arg1, arg2, arg3, out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
+            return Tuple.Create(func(arg1, arg2, arg3, out value1, out value2, out value3, out value4, out value5), value1, value2, value3, value4, value5);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TReturn>(this FuncOut6<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TReturn> func)
@@ -607,7 +593,7 @@ namespace XSpect
             TOut4 value4;
             TOut5 value5;
             TOut6 value6;
-            return Make.Tuple(func(out value1, out value2, out value3, out value4, out value5, out value6), value1, value2, value3, value4, value5, value6);
+            return Tuple.Create(func(out value1, out value2, out value3, out value4, out value5, out value6), value1, value2, value3, value4, value5, value6);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TReturn>(this FuncOut6<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TReturn> func, T arg)
@@ -618,7 +604,7 @@ namespace XSpect
             TOut4 value4;
             TOut5 value5;
             TOut6 value6;
-            return Make.Tuple(func(arg, out value1, out value2, out value3, out value4, out value5, out value6), value1, value2, value3, value4, value5, value6);
+            return Tuple.Create(func(arg, out value1, out value2, out value3, out value4, out value5, out value6), value1, value2, value3, value4, value5, value6);
         }
 
         public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6> InvokeMulti<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TReturn>(this FuncOut6<T1, T2, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TReturn> func, T1 arg1, T2 arg2)
@@ -629,31 +615,7 @@ namespace XSpect
             TOut4 value4;
             TOut5 value5;
             TOut6 value6;
-            return Make.Tuple(func(arg1, arg2, out value1, out value2, out value3, out value4, out value5, out value6), value1, value2, value3, value4, value5, value6);
-        }
-
-        public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7> InvokeMulti<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TReturn>(this FuncOut7<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TReturn> func)
-        {
-            TOut1 value1;
-            TOut2 value2;
-            TOut3 value3;
-            TOut4 value4;
-            TOut5 value5;
-            TOut6 value6;
-            TOut7 value7;
-            return Make.Tuple(func(out value1, out value2, out value3, out value4, out value5, out value6, out value7), value1, value2, value3, value4, value5, value6, value7);
-        }
-
-        public static Tuple<TReturn, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7> InvokeMulti<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TReturn>(this FuncOut7<T, TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TReturn> func, T arg)
-        {
-            TOut1 value1;
-            TOut2 value2;
-            TOut3 value3;
-            TOut4 value4;
-            TOut5 value5;
-            TOut6 value6;
-            TOut7 value7;
-            return Make.Tuple(func(arg, out value1, out value2, out value3, out value4, out value5, out value6, out value7), value1, value2, value3, value4, value5, value6, value7);
+            return Tuple.Create(func(arg1, arg2, out value1, out value2, out value3, out value4, out value5, out value6), value1, value2, value3, value4, value5, value6);
         }
     }
 }

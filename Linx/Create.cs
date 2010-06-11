@@ -89,9 +89,9 @@ namespace XSpect
             }
             return elements
                 .Where((e, i) => i % 2 == 0)
-                .ZipWith(
+                .Zip(
                     elements.Where((e, i) => i % 2 == 1),
-                    (k, v) => KeyValuePair(k, v)
+                    KeyValuePair
                 )
                 .ToDictionary(p => p.Key, p => p.Value);
         }
@@ -99,7 +99,7 @@ namespace XSpect
         public static IDictionary<TKey, TValue> Dictionary<TKey, TValue>(IEnumerable<TKey> keys, IEnumerable<TValue> values)
         {
             return keys
-                .ZipWith(values, (k, v) => KeyValuePair(k, v))
+                .Zip(values, KeyValuePair)
                 .ToDictionary(p => p.Key, p => p.Value);
         }
 

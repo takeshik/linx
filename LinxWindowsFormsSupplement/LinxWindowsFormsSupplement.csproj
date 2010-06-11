@@ -8,10 +8,11 @@
     <ProjectGuid>{8621B2BF-EBFB-4FAE-916F-A9137532DDF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LinxWindowsFormsSupplement</RootNamespace>
+    <RootNamespace>XSpect.Windows.Forms</RootNamespace>
     <AssemblyName>LinxWindowsFormsSupplement</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -82,20 +83,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Achiral\Achiral\Achiral.csproj">
-      <Project>{4F6D4AD0-B8A5-48FE-8692-B86FCB91D4CB}</Project>
-      <Name>Achiral</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LinxFramework\LinxFramework.csproj">
-      <Project>{01A70074-BAA2-4A1F-BFDC-F99FC408BDEB}</Project>
-      <Name>LinxFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Linx\Linx.csproj">
-      <Project>{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}</Project>
-      <Name>Linx</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ExceptionForm.ja.resx">
       <DependentUpon>ExceptionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,6 +100,20 @@
     <Content Include="Resources\info.png" />
     <Content Include="Resources\UAC_shield.png" />
     <Content Include="Resources\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Achiral\Achiral\Achiral.csproj">
+      <Project>{4F6D4AD0-B8A5-48FE-8692-B86FCB91D4CB}</Project>
+      <Name>Achiral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LinxFramework\LinxFramework.csproj">
+      <Project>{01A70074-BAA2-4A1F-BFDC-F99FC408BDEB}</Project>
+      <Name>LinxFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Linx\Linx.csproj">
+      <Project>{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}</Project>
+      <Name>Linx</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

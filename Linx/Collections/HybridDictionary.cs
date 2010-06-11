@@ -539,7 +539,7 @@ namespace XSpect.Collections
 
         protected void InsertItems(IEnumerable<Int32> indexes, IEnumerable<TValue> values)
         {
-            this.InsertItems(indexes, indexes.ZipWith(values, (i, v) => this.KeySelector(i, v)), values, true);
+            this.InsertItems(indexes, indexes.Zip(values, (i, v) => this.KeySelector(i, v)), values, true);
         }
 
         protected virtual void InsertItems(IEnumerable<Int32> indexes, IEnumerable<TKey> keys, IEnumerable<TValue> values, Boolean ensureKeysCompliant)

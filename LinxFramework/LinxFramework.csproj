@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XSpect</RootNamespace>
     <AssemblyName>LinxFramework</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,16 +93,6 @@
     <Compile Include="Reflection\CodeDomain.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Achiral\Achiral\Achiral.csproj">
-      <Project>{4F6D4AD0-B8A5-48FE-8692-B86FCB91D4CB}</Project>
-      <Name>Achiral</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Linx\Linx.csproj">
-      <Project>{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}</Project>
-      <Name>Linx</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ConsoleUtil.cs" />
     <Compile Include="ConsoleUtil.State.cs" />
     <Compile Include="ExceptionHandler.cs" />
@@ -114,6 +105,16 @@
     <Compile Include="Reflection\CodeManager.cs" />
     <Compile Include="Reflection\LanguageSetting.cs" />
     <Compile Include="Shell.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Achiral\Achiral\Achiral.csproj">
+      <Project>{4F6D4AD0-B8A5-48FE-8692-B86FCB91D4CB}</Project>
+      <Name>Achiral</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Linx\Linx.csproj">
+      <Project>{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}</Project>
+      <Name>Linx</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
