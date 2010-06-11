@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Linx", "Linx\Linx.csproj", "{CECE0DEF-E568-42C1-81CF-9BD5F532A76D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinxFramework", "LinxFramework\LinxFramework.csproj", "{01A70074-BAA2-4A1F-BFDC-F99FC408BDEB}"
