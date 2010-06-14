@@ -300,7 +300,6 @@ namespace XSpect.Reflection
             IDictionary<String, Object> arguments
         )
         {
-            
             this.CheckIfDisposed();
             return language.IsDynamicLanguage
                 ? this.Parent.ScriptRuntime
