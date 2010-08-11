@@ -379,7 +379,7 @@ namespace XSpect.Collections
         public void AddRange(IEnumerable<TValue> values)
         {
             this.InsertItems(
-                this.Count.ToEnumerable(),
+                Enumerable.Repeat(this.Count, values.Count()),
                 values
             );
         }
