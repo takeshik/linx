@@ -57,5 +57,15 @@ namespace XSpect.Extension
             }
             return ret.ToArray();
         }
+
+        public static Int32 Read(this Stream stream, Byte[] buffer)
+        {
+            return stream.Read(buffer, 0, buffer.Length);
+        }
+
+        public static void Write(this Stream stream, Byte[] buffer)
+        {
+            stream.Write(buffer, 0, buffer.Length);
+        }
     }
 }
