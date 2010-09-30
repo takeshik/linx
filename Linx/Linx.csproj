@@ -75,6 +75,7 @@
     <Compile Include="AppDomainDataAccessor.cs" />
     <Compile Include="Codecs\Base64Codec.cs" />
     <Compile Include="Codecs\XmlObjectSerialization.cs" />
+    <Compile Include="Collections\AnonymousEqualityComparer.cs" />
     <Compile Include="Collections\HybridDictionary.cs" />
     <Compile Include="Collections\HybridDictionary.KeyList.cs">
       <DependentUpon>HybridDictionary.cs</DependentUpon>
