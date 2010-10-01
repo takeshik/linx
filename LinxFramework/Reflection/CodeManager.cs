@@ -231,7 +231,7 @@ namespace XSpect.Reflection
                 setup.DebugMode = this.Configuration.ResolveValue<Boolean>("dlr", "debug");
                 setup.HostArguments = this.Configuration.ResolveValue<List<Object>>("dlr", "arguments");
                 setup.Options.AddRange(
-                    this.Configuration.ResolveValue<List<Struct<String, Object>>>("dlr", "options")
+                    this.Configuration.ResolveValue<List<MutableTuple<String, Object>>>("dlr", "options")
                         .Select(s => Create.KeyValuePair(s.Item1, s.Item2))
                 );
             }));
