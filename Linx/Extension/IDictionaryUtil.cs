@@ -56,10 +56,10 @@ namespace XSpect.Extension
         }
 
         public static IDictionary<TNewKey, TNewValue> SelectKeyValue<TKey, TValue, TNewKey, TNewValue>(
-                this IDictionary<TKey, TValue> dictionary,
-                Func<TKey, TNewKey> keySelector,
-                Func<TValue, TNewValue> valueSelector
-            )
+            this IDictionary<TKey, TValue> dictionary,
+            Func<TKey, TNewKey> keySelector,
+            Func<TValue, TNewValue> valueSelector
+        )
         {
             return dictionary.Select(p => Create.KeyValuePair(keySelector(p.Key), valueSelector(p.Value))).ToDictionary();
         }

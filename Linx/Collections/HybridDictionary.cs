@@ -222,8 +222,8 @@ namespace XSpect.Collections
 
         public void ReadXml(XmlReader reader)
         {
-            new XmlSerializer(typeof(TKey)).Let(sk =>
-                new XmlSerializer(typeof(TValue)).Let(sv =>
+            new XmlSerializer(typeof(TKey)).Apply(sk =>
+                new XmlSerializer(typeof(TValue)).Apply(sv =>
                     XDocument.Load(reader).Root
                         .Elements("pair")
                         .ForEach(xe => this.Add(

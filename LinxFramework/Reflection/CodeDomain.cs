@@ -101,7 +101,7 @@ namespace XSpect.Reflection
                   {
                       ApplicationName = "CodeManager." + key,
                       LoaderOptimization = LoaderOptimization.MultiDomainHost,
-                  }.Let(info => infoInitializers.ForEach(f => f(info))))   
+                  }.Apply(info => infoInitializers.ForEach(f => f(info))))   
         {
         }
 
@@ -304,12 +304,12 @@ namespace XSpect.Reflection
             return language.IsDynamicLanguage
                 ? this.Parent.ScriptRuntime
                       .GetEngineByTypeName(language.Type.AssemblyQualifiedName)
-                      .Do(e => e.CreateScriptSourceFromString(source, SourceCodeKind.File)
+                      .Let(e => e.CreateScriptSourceFromString(source, SourceCodeKind.File)
                           .Execute<T>(e.CreateScope()
-                              .Let(s => arguments.ForEach(p => s.SetVariable(p.Key, p.Value)))
+                              .Apply(s => arguments.ForEach(p => s.SetVariable(p.Key, p.Value)))
                           )
                       )
-                : this.Compile(language, source, true).Do(_ => (T) this.DoCallback(d =>
+                : this.Compile(language, source, true).Let(_ => (T) this.DoCallback(d =>
                       AppDomain.CurrentDomain.GetAssemblies()
                           .Single(a => a.GetName() == d.Get<AssemblyName>("r"))
                           .GetTypes()

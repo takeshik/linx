@@ -131,48 +131,27 @@ namespace XSpect.Extension
             }
         }
 
-        public static Nullable<TResult> Nullable<TReceiver, TResult>(this TReceiver self, Func<TReceiver, TResult> func)
-            where TResult : struct
-        {
-            if (self == null)
-            {
-                return null;
-            }
-            else
-            {
-                return func(self);
-            }
-        }
-
-        public static Nullable<TReceiver> NullIf<TReceiver>(this TReceiver self, Func<TReceiver, Boolean> predicate)
-            where TReceiver : struct
-        {
-            if (predicate(self))
-            {
-                return null;
-            }
-            else
-            {
-                return self;
-            }
-        }
-
-        public static Boolean IsDefault<TReceiver>(this TReceiver self)
-        {
-            return ReferenceEquals(self, default(TReceiver));
-        }
-
-        public static TResult Do<TReceiver, TResult>(this TReceiver self, Func<TReceiver, TResult> func)
+        public static TResult Let<TReceiver, TResult>(this TReceiver self, Func<TReceiver, TResult> func)
         {
             return func(self);
         }
 
-        public static TResult[] Do<TReceiver, TResult>(this TReceiver self, params Func<TReceiver, TResult>[] funcs)
+        public static TResult[] Let<TReceiver, TResult>(this TReceiver self, params Func<TReceiver, TResult>[] funcs)
+        {
+            return Let(self, (IEnumerable<Func<TReceiver, TResult>>) funcs);
+        }
+
+        public static TResult[] Let<TReceiver, TResult>(this TReceiver self, IEnumerable<Func<TReceiver, TResult>> funcs)
         {
             return funcs.Select(f => f(self)).ToArray();
         }
 
-        public static TReceiver Let<TReceiver>(this TReceiver self, params Action<TReceiver>[] actions)
+        public static TReceiver Apply<TReceiver>(this TReceiver self, params Action<TReceiver>[] actions)
+        {
+            return Apply(self, (IEnumerable<Action<TReceiver>>) actions);
+        }
+
+        public static TReceiver Apply<TReceiver>(this TReceiver self, IEnumerable<Action<TReceiver>> actions)
         {
             actions.ForEach(a => a(self));
             return self;
@@ -195,12 +174,12 @@ namespace XSpect.Extension
 
         public static TReceiver Write<TReceiver>(this TReceiver self, TextWriter writer)
         {
-            return self.Let(o => writer.Write(o));
+            return self.Apply(o => writer.Write(o));
         }
 
         public static TReceiver WriteLine<TReceiver>(this TReceiver self, TextWriter writer)
         {
-            return self.Let(o => writer.WriteLine(o));
+            return self.Apply(o => writer.WriteLine(o));
         }
 
         public static void Void(this Object self)
@@ -257,7 +236,7 @@ namespace XSpect.Extension
                 begin(self);
             }
             TResult ret = body(self);
-            if (begin != null)
+            if (end != null)
             {
                 end(self);
             }
@@ -276,10 +255,27 @@ namespace XSpect.Extension
                 begin(self);
             }
             body(self);
-            if (begin != null)
+            if (end != null)
             {
                 end(self);
             }
+        }
+
+        public static TResult Scope<TReceiver, TResult>(
+            this TReceiver self,
+            Action<TReceiver> begin,
+            Action<TReceiver> body,
+            Func<TReceiver, TResult> end
+        )
+        {
+            if (begin != null)
+            {
+                begin(self);
+            }
+            body(self);
+            return end != null
+                ? end(self)
+                : default(TResult);
         }
 
         public static Boolean EqualsAny(this Object self, params Object[] objects)
@@ -319,7 +315,7 @@ namespace XSpect.Extension
 
         public static IEnumerable<TSource> Walk<TSource>(this TSource origin, Func<TSource, TSource> walker)
         {
-            return Walk(origin, walker, s => s.IsDefault());
+            return Walk(origin, walker, s => s.Equals(default(TSource)));
         }
 
         public static TReceiver MemberwiseClone<TReceiver>(this TReceiver self)
@@ -346,11 +342,6 @@ namespace XSpect.Extension
                 )
                 .ForEach(p => p.SetValue(result, v, null));
             return result;
-        }
-
-        public static IEnumerable<TSource> Next<TSource>(this TSource source, Func<IEnumerable<TSource>, TSource> generator)
-        {
-            return source.ToEnumerable().Next(generator);
         }
 
         public static IDictionary<String, Object> ToDictionary(this Object obj)

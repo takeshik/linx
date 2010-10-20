@@ -89,6 +89,8 @@
     <Compile Include="Collections\NotifyDictionaryChangedEventArgs.cs" />
     <Compile Include="Collections\TransparentEnumerable.cs" />
     <Compile Include="Collections\TransparentEnumerator.cs" />
+    <Compile Include="Collections\Tree.cs" />
+    <Compile Include="Collections\TreeNode.cs" />
     <Compile Include="Extension\BooleanUtil.cs" />
     <Compile Include="Create.cs" />
     <Compile Include="Extension\DateTimeUtil.cs" />

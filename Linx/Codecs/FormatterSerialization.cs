@@ -80,7 +80,7 @@ namespace XSpect.Codecs
         public static Byte[] Serialize(T obj, IFormatter formatter)
         {
             return new MemoryStream().Dispose(s =>
-                s.Let(_ => formatter.Serialize(_, obj)).ToArray()
+                s.Apply(_ => formatter.Serialize(_, obj)).ToArray()
             );
         }
 
@@ -88,7 +88,7 @@ namespace XSpect.Codecs
             where TFormatter : IFormatter, new()
         {
             return new MemoryStream().Dispose<MemoryStream, Byte[]>(s =>
-                s.Let(_ => new TFormatter().Serialize(_, obj)).ToArray()
+                s.Apply(_ => new TFormatter().Serialize(_, obj)).ToArray()
             );
         }
 

@@ -79,7 +79,7 @@ namespace XSpect.Codecs
     {
         public static Byte[] Serialize(T obj, XmlObjectSerializer serializer)
         {
-            return new MemoryStream().Let(_ => _.Dispose(s =>
+            return new MemoryStream().Apply(_ => _.Dispose(s =>
                 serializer.WriteObject(s, obj)
             )).ToArray();
         }
