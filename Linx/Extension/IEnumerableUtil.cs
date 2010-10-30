@@ -188,5 +188,13 @@ namespace XSpect.Extension
         {
             return new TransparentEnumerable<TSource>(source);
         }
+
+        public static IEnumerable<IEnumerable<TSource>> Distribute<TSource>(this IEnumerable<TSource> source, Int32 count)
+        {
+            return source
+                .Select((e, i) => Tuple.Create(e, i))
+                .GroupBy(_ => _.Item2 % count)
+                .Select(g => g.Select(_ => _.Item1));
+        }
     }
 }
