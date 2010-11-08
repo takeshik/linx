@@ -67,11 +67,7 @@ namespace XSpect.Extension
 
         public static TResult If<TReceiver, TResult>(this TReceiver self, Func<TReceiver, Boolean> predicate, Func<TReceiver, TResult> funcIfTrue, Func<TReceiver, TResult> funcIfFalse)
         {
-            if (self == null)
-            {
-                return default(TResult);
-            }
-            else if (self == null || predicate(self))
+            if (predicate(self))
             {
                 return funcIfTrue(self);
             }
