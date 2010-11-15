@@ -85,21 +85,11 @@
     <Compile Include="Net\HttpClient.cs" />
     <Compile Include="Net\UPnPClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflection\CodeDomain.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleUtil.cs" />
-    <Compile Include="ConsoleUtil.State.cs" />
-    <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Hooking\ActionHook.cs" />
     <Compile Include="Hooking\FuncHook.cs" />
     <Compile Include="Hooking\Hook.cs" />
-    <Compile Include="Reflection\CodeDomain.DoCallbackHelper.cs">
-      <DependentUpon>CodeDomain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Reflection\CodeManager.cs" />
-    <Compile Include="Reflection\LanguageSetting.cs" />
-    <Compile Include="Shell.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Achiral\Achiral\Achiral.csproj">
