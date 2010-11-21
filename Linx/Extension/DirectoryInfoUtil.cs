@@ -40,14 +40,14 @@ namespace XSpect.Extension
         public static FileInfo File(this DirectoryInfo self, String path)
         {
             return path.Contains("*") || path.Contains("?")
-                ? self.EnumerateFiles(path).Single()
+                ? self.GetFiles(path).Single()
                 : new FileInfo(Path.Combine(self.FullName, path));
         }
 
         public static DirectoryInfo Directory(this DirectoryInfo self, String path)
         {
             return path.Contains("*") || path.Contains("?")
-                ? self.EnumerateDirectories(path).Single()
+                ? self.GetDirectories(path).Single()
                 : new DirectoryInfo(Path.Combine(self.FullName, path));
         }
     }
