@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDomainInvoker.cs" />
     <Compile Include="AppDomainDataAccessor.cs" />
     <Compile Include="Codecs\Base64Codec.cs" />
     <Compile Include="Codecs\XmlObjectSerialization.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Collections\TransparentEnumerator.cs" />
     <Compile Include="Collections\Tree.cs" />
     <Compile Include="Collections\TreeNode.cs" />
+    <Compile Include="Extension\AppDomainUtil.cs" />
     <Compile Include="Extension\BooleanUtil.cs" />
     <Compile Include="Create.cs" />
     <Compile Include="Extension\DateTimeUtil.cs" />
