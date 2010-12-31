@@ -3,7 +3,7 @@
 // $Id: a7db7754a428ebb526d000b64ab4e48866a29032 $
 /* Linx
  *   Library that Integrates .NET with eXtremes
- * Copyright © 2008-2010 Takeshi KIRIYA (aka takeshik) <takeshik@users.sf.net>
+ * Copyright © 2008-2011 Takeshi KIRIYA (aka takeshik) <takeshik@users.sf.net>
  * All rights reserved.
  * 
  * This file is part of Linx.
