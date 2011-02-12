@@ -132,16 +132,6 @@ namespace XSpect.Extension
             return func(self);
         }
 
-        public static TResult[] Let<TReceiver, TResult>(this TReceiver self, params Func<TReceiver, TResult>[] funcs)
-        {
-            return Let(self, (IEnumerable<Func<TReceiver, TResult>>) funcs);
-        }
-
-        public static TResult[] Let<TReceiver, TResult>(this TReceiver self, IEnumerable<Func<TReceiver, TResult>> funcs)
-        {
-            return funcs.Select(f => f(self)).ToArray();
-        }
-
         public static TReceiver Apply<TReceiver>(this TReceiver self, params Action<TReceiver>[] actions)
         {
             return Apply(self, (IEnumerable<Action<TReceiver>>) actions);
