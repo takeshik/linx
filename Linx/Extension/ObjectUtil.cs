@@ -79,7 +79,7 @@ namespace XSpect.Extension
 
         public static TReceiver If<TReceiver>(this TReceiver self, Func<TReceiver, Boolean> predicate, Func<TReceiver, TReceiver> funcIfTrue)
         {
-            return self.If(predicate, funcIfTrue, Lambda.Id<TReceiver>());
+            return self.If(predicate, funcIfTrue, _ => _);
         }
 
         public static TReceiver If<TReceiver>(this TReceiver self, Func<TReceiver, Boolean> predicate, Action<TReceiver> actionIfTrue, Action<TReceiver> actionIfFalse)
@@ -97,7 +97,7 @@ namespace XSpect.Extension
 
         public static TReceiver If<TReceiver>(this TReceiver self, Func<TReceiver, Boolean> predicate, Action<TReceiver> actionIfTrue)
         {
-            return self.If(predicate, actionIfTrue, Lambda.Nop<TReceiver>());
+            return self.If(predicate, actionIfTrue, _ => {});
         }
 
         public static TResult Null<TReceiver, TResult>(this TReceiver self, Func<TReceiver, TResult> func, TResult valueIfNull)

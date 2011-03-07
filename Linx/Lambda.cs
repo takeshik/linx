@@ -27,6 +27,8 @@
  * IN THE SOFTWARE.
  */
 
+#if LAMBDA_LIB
+
 using System;
 using System.Linq;
 using System.Reflection;
@@ -99,3 +101,5 @@ namespace XSpect
         }
     }
 }
+
+#endif

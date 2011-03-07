@@ -27,6 +27,8 @@
  * IN THE SOFTWARE.
  */
 
+#if LAMBDA_LIB
+
 using System;
 
 namespace XSpect
@@ -619,3 +621,5 @@ namespace XSpect
         }
     }
 }
+
+#endif

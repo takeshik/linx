@@ -27,6 +27,8 @@
  * IN THE SOFTWARE.
  */
 
+#if LAMBDA_LIB
+
 using System;
 using XSpect.Extension;
 using Achiral;
@@ -97,3 +99,5 @@ namespace XSpect
         }
     }
 }
+
+#endif
