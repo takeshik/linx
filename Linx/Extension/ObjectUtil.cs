@@ -143,11 +143,6 @@ namespace XSpect.Extension
             return self;
         }
 
-        public static IEnumerable<TSource> ToEnumerable<TSource>(this TSource source)
-        {
-            yield return source;
-        }
-
         public static TReceiver Write<TReceiver>(this TReceiver self)
         {
             return self.Write(Console.Out);
@@ -272,36 +267,6 @@ namespace XSpect.Extension
         public static Boolean EqualsAll(this Object self, params Object[] objects)
         {
             return objects.All(self.Equals);
-        }
-
-        public static TReturn Walk<TReturn, TParam>(this TReturn origin, Func<TReturn, TParam, TReturn> walker, IEnumerable<TParam> parameters)
-        {
-            if (parameters.Any())
-            {
-                return parameters.Select(p => origin = walker(origin, p)).Last();
-            }
-            else
-            {
-                return origin;
-            }
-        }
-
-        public static TReturn Walk<TReturn, TParam>(this TReturn origin, Func<TReturn, TParam, TReturn> walker, params TParam[] parameters)
-        {
-            return origin.Walk(walker, (IEnumerable<TParam>) parameters);
-        }
-
-        public static IEnumerable<TSource> Walk<TSource>(this TSource origin, Func<TSource, TSource> walker, Func<TSource, Boolean> terminator)
-        {
-            for (TSource obj = origin; !terminator(obj); obj = walker(obj))
-            {
-                yield return obj;
-            }
-        }
-
-        public static IEnumerable<TSource> Walk<TSource>(this TSource origin, Func<TSource, TSource> walker)
-        {
-            return Walk(origin, walker, s => s.Equals(default(TSource)));
         }
 
         public static TReceiver MemberwiseClone<TReceiver>(this TReceiver self)

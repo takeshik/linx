@@ -27,6 +27,7 @@
  * IN THE SOFTWARE.
  */
 
+#if LAMBDA_LIB
 namespace XSpect
 {
     public delegate void ActionRef1<TRef>(ref TRef argRef);
@@ -317,3 +318,4 @@ namespace XSpect
 
     public delegate TReturn FuncOut8<TOut1, TOut2, TOut3, TOut4, TOut5, TOut6, TOut7, TOut8, TReturn>(out TOut1 argOut1, out TOut2 argOut2, out TOut3 argOut3, out TOut4 argOut4, out TOut5 argOut5, out TOut6 argOut6, out TOut7 argOut7, out TOut8 argOut8);
 }
+#endif

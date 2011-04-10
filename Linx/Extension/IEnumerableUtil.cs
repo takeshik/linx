@@ -58,19 +58,6 @@ namespace XSpect.Extension
             return source.Count() < 1 ? source.Single() : source.Single(predicateIfNotSingle);
         }
 
-        public static IEnumerable<TSource> Next<TSource>(this IEnumerable<TSource> source, Func<IEnumerable<TSource>, TSource> generator)
-        {
-            foreach (TSource e in source)
-            {
-                yield return e;
-            }
-            IEnumerable<TSource> previous = source.Reverse();
-            while (true)
-            {
-                yield return (previous = generator(previous).ToEnumerable().Concat(previous)).First();
-            }
-        }
-
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> collection)
         {
             return collection.ToDictionary(p => p.Key, p => p.Value);
@@ -83,7 +70,7 @@ namespace XSpect.Extension
                 : String.Empty;
         }
 
-        public static IEnumerable<TResult> ZipWith<T1, T2, T3, TResult>(
+        public static IEnumerable<TResult> Zip<T1, T2, T3, TResult>(
             this IEnumerable<T1> source1,
             IEnumerable<T2> source2,
             IEnumerable<T3> source3,
@@ -100,7 +87,7 @@ namespace XSpect.Extension
             }
         }
 
-        public static IEnumerable<TResult> ZipWith<T1, T2, T3, T4, TResult>(
+        public static IEnumerable<TResult> Zip<T1, T2, T3, T4, TResult>(
             this IEnumerable<T1> source1,
             IEnumerable<T2> source2,
             IEnumerable<T3> source3,
@@ -119,7 +106,7 @@ namespace XSpect.Extension
             }
         }
 
-        public static IEnumerable<TResult> ZipWith<T1, T2, T3, TResult>(
+        public static IEnumerable<TResult> Zip<T1, T2, T3, TResult>(
             this IEnumerable<T1> source1,
             IEnumerable<T2> source2,
             IEnumerable<T3> source3,
@@ -138,7 +125,7 @@ namespace XSpect.Extension
             }
         }
 
-        public static IEnumerable<TResult> ZipWith<T1, T2, T3, T4, TResult>(
+        public static IEnumerable<TResult> Zip<T1, T2, T3, T4, TResult>(
             this IEnumerable<T1> source1,
             IEnumerable<T2> source2,
             IEnumerable<T3> source3,
@@ -182,11 +169,6 @@ namespace XSpect.Extension
         )
         {
             return source.Skip(skipCount).Take(takeCount);
-        }
-
-        public static IEnumerable<TSource> AsTransparent<TSource>(this IEnumerable<TSource> source)
-        {
-            return new TransparentEnumerable<TSource>(source);
         }
 
         public static IEnumerable<IEnumerable<TSource>> Distribute<TSource>(this IEnumerable<TSource> source, Int32 count)

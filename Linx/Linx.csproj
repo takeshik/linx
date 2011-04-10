@@ -63,6 +63,15 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.CoreEx, Version=1.0.2856.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\lib\System.CoreEx.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Interactive, Version=1.0.2856.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\lib\System.Interactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive, Version=1.0.2856.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\lib\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -88,8 +97,6 @@
       <DependentUpon>HybridDictionary.cs</DependentUpon>
     </Compile>
     <Compile Include="Collections\NotifyDictionaryChangedEventArgs.cs" />
-    <Compile Include="Collections\TransparentEnumerable.cs" />
-    <Compile Include="Collections\TransparentEnumerator.cs" />
     <Compile Include="Collections\Tree.cs" />
     <Compile Include="Collections\TreeNode.cs" />
     <Compile Include="Extension\AppDomainUtil.cs" />

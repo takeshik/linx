@@ -75,9 +75,9 @@ namespace XSpect.Collections
             set
             {
                 this.SetItems(
-                    this.IndexOfKey(key).ToEnumerable(),
-                    key.ToEnumerable(),
-                    value.ToEnumerable()
+                    EnumerableEx.Return(this.IndexOfKey(key)),
+                    EnumerableEx.Return(key),
+                    EnumerableEx.Return(value)
                 );
             }
         }
@@ -91,9 +91,9 @@ namespace XSpect.Collections
             set
             {
                 this.SetItems(
-                    index.ToEnumerable(),
-                    value.Key.ToEnumerable(),
-                    value.Value.ToEnumerable()
+                    EnumerableEx.Return(index),
+                    EnumerableEx.Return(value.Key),
+                    EnumerableEx.Return(value.Value)
                 );
             }
         }
@@ -133,17 +133,17 @@ namespace XSpect.Collections
         public void Add(TKey key, TValue value)
         {
             this.InsertItems(
-                this.Count.ToEnumerable(),
-                key.ToEnumerable(),
-                value.ToEnumerable()
+                EnumerableEx.Return(this.Count),
+                EnumerableEx.Return(key),
+                EnumerableEx.Return(value)
             );
         }
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             this.InsertItems(
-                this.Count.ToEnumerable(),
-                item.Key.ToEnumerable(),
-                item.Value.ToEnumerable()
+                EnumerableEx.Return(this.Count),
+                EnumerableEx.Return(item.Key),
+                EnumerableEx.Return(item.Value)
             );
         }
 
@@ -188,26 +188,26 @@ namespace XSpect.Collections
         public void Insert(Int32 index, KeyValuePair<TKey, TValue> item)
         {
             this.InsertItems(
-                index.ToEnumerable(),
-                item.Key.ToEnumerable(),
-                item.Value.ToEnumerable()
+                EnumerableEx.Return(index),
+                EnumerableEx.Return(item.Key),
+                EnumerableEx.Return(item.Value)
             );
         }
 
         public Boolean Remove(TKey key)
         {
-            return this.RemoveItems(this.IndexOfKey(key).ToEnumerable())
+            return this.RemoveItems(EnumerableEx.Return(this.IndexOfKey(key)))
                 .Single();
         }
         public Boolean Remove(KeyValuePair<TKey, TValue> item)
         {
-            return this.RemoveItems(this.IndexOfKey(item.Key).ToEnumerable())
+            return this.RemoveItems(EnumerableEx.Return(this.IndexOfKey(item.Key)))
                 .Single();
         }
 
         public void RemoveAt(Int32 index)
         {
-            this.RemoveItems(index.ToEnumerable());
+            this.RemoveItems(EnumerableEx.Return(index));
         }
 
         public Boolean TryGetValue(TKey key, out TValue value)
@@ -353,8 +353,8 @@ namespace XSpect.Collections
         public void Add(TValue item)
         {
             this.InsertItems(
-                this.Count.ToEnumerable(),
-                item.ToEnumerable()
+                EnumerableEx.Return(this.Count),
+                EnumerableEx.Return(item)
             );
         }
 
@@ -432,17 +432,17 @@ namespace XSpect.Collections
         public void Insert(Int32 index, TValue item)
         {
             this.InsertItems(
-                index.ToEnumerable(),
-                item.ToEnumerable()
+                EnumerableEx.Return(index),
+                EnumerableEx.Return(item)
             );
         }
 
         public void Insert(Int32 index, TKey key, TValue value)
         {
             this.InsertItems(
-                index.ToEnumerable(),
-                key.ToEnumerable(),
-                value.ToEnumerable()
+                EnumerableEx.Return(index),
+                EnumerableEx.Return(key),
+                EnumerableEx.Return(value)
             );
         }
 
@@ -481,13 +481,13 @@ namespace XSpect.Collections
 
         public Boolean RemoveValue(TValue item)
         {
-            return this.RemoveItems(this.Values.IndexOf(item).ToEnumerable())
+            return this.RemoveItems(EnumerableEx.Return(this.Values.IndexOf(item)))
                 .Single();
         }
 
         public IEnumerable<Boolean> RemoveRange(IEnumerable<TKey> keys)
         {
-            return this.RemoveAtRange(keys.Select(k => this.IndexOfKey(k)));
+            return this.RemoveAtRange(keys.Select(this.IndexOfKey));
         }
 
         public IEnumerable<Boolean> RemoveAtRange(IEnumerable<Int32> indexes)
@@ -544,12 +544,12 @@ namespace XSpect.Collections
 
         protected virtual void InsertItems(IEnumerable<Int32> indexes, IEnumerable<TKey> keys, IEnumerable<TValue> values, Boolean ensureKeysCompliant)
         {
-            IEnumerable<Tuple> elements = indexes.ZipWith(
+            IEnumerable<Tuple> elements = indexes.Zip(
                 keys,
                 values,
                 ensureKeysCompliant || this.KeySelector == null
                     ? Make.Repeat(true)
-                    : indexes.ZipWith(
+                    : indexes.Zip(
                           keys,
                           values,
                           (i_, k_, v_) => this.KeyComparer.Equals(this.KeySelector(i_, v_), k_)
@@ -590,12 +590,12 @@ namespace XSpect.Collections
         protected virtual void SetItems(IEnumerable<Int32> indexes, IEnumerable<TKey> keys, IEnumerable<TValue> values)
         {
             IEnumerable<Tuple> elements = indexes
-                .ZipWith(
+                .Zip(
                     keys,
                     values,
                     this.KeySelector == null
                         ? Make.Repeat(true)
-                        : indexes.ZipWith(
+                        : indexes.Zip(
                               keys,
                               values,
                               (i_, k_, v_) => this.KeyComparer.Equals(this.KeySelector(i_, v_), k_)
