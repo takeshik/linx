@@ -124,7 +124,7 @@ namespace XSpect
 
         protected void SetPrefix()
         {
-            this.Prefix = String.Empty;
+            this.Prefix = "";
             do
             {
                 this.Prefix = DateTime.UtcNow.Ticks + "-" + Guid.NewGuid().ToString("N");

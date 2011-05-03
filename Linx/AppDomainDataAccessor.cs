@@ -67,7 +67,7 @@ namespace XSpect
         }
 
         public AppDomainDataAccessor(AppDomain domain)
-            : this(domain, String.Empty)
+            : this(domain, "")
         {
         }
 

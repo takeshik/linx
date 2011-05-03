@@ -67,7 +67,7 @@ namespace XSpect.Extension
         {
             return dictionary != null && dictionary.Any()
                 ? "?" + dictionary.Select(p => p.Key + "=" + p.Value).Join("&")
-                : String.Empty;
+                : "";
         }
 
         public static IEnumerable<TResult> Zip<T1, T2, T3, TResult>(
