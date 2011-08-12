@@ -28,6 +28,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Achiral;
@@ -177,6 +178,76 @@ namespace XSpect.Extension
                 .Select((e, i) => Tuple.Create(e, i))
                 .GroupBy(_ => _.Item2 % count)
                 .Select(g => g.Select(_ => _.Item1));
+        }
+
+        public static IEnumerable<TSource> Remotable<TSource>(this IEnumerable<TSource> source)
+        {
+            return new TransparentEnumerable<TSource>(source);
+        }
+    }
+
+    internal class TransparentEnumerable<T>
+        : MarshalByRefObject,
+          IEnumerable<T>
+    {
+        private readonly IEnumerable<T> _enumerable;
+
+        public TransparentEnumerable(IEnumerable<T> enumerable)
+        {
+            this._enumerable = enumerable;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new TransparentEnumerator<T>(this._enumerable.GetEnumerator());
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+    }
+
+    internal class TransparentEnumerator<T>
+        : MarshalByRefObject,
+          IEnumerator<T>
+    {
+        private readonly IEnumerator<T> _enumerator;
+
+        public TransparentEnumerator(IEnumerator<T> enumerator)
+        {
+            this._enumerator = enumerator;
+        }
+
+        public void Dispose()
+        {
+            this._enumerator.Dispose();
+        }
+
+        public Boolean MoveNext()
+        {
+            return this._enumerator.MoveNext();
+        }
+
+        public void Reset()
+        {
+            this._enumerator.Reset();
+        }
+
+        public T Current
+        {
+            get
+            {
+                return this._enumerator.Current;
+            }
+        }
+
+        Object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
         }
     }
 }
